@@ -1,14 +1,15 @@
 package model;
 
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 @Setter
 @Getter
 @ToString
+@AllArgsConstructor
+@NoArgsConstructor
 
 public class Passport {
     private String info;
+
 }
