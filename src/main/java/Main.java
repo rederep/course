@@ -17,7 +17,7 @@ public class Main {
 
         Client c2 = Client.builder()
                 .date(LocalDate.now())
-                .subscriptionList(new ArrayList<>())
+                .subscription(new ArrayList<>())
                 .workerList(new ArrayList<>())
                 .build();
         System.out.println(c2);

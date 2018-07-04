@@ -12,11 +12,12 @@ import java.util.List;
 @Getter
 @Setter
 @ToString(callSuper = true)
-
 public class Client extends Human {
     private LocalDate date;
-    List<Worker> workerList;
-    List<Subscription>  subscriptionList;
+    @Singular
+    private List<Worker> workers;
+    @Singular
+    private List<Subscription>  subscriptions;
 
 
 
