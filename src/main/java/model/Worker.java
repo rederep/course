@@ -15,7 +15,8 @@ import java.util.List;
 public class Worker extends Human {
     private double salary;
     private Passport passport;
-    private List<Specialization> specializationsList;
+    @Singular
+    private List<Specialization> specializationsLists;
 
 
 }

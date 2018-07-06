@@ -17,19 +17,19 @@ public class Main {
 
         Client c2 = Client.builder()
                 .date(LocalDate.now())
-                .subscription(new ArrayList<>())
-                .workerList(new ArrayList<>())
+                .subscriptionLists(new ArrayList<>())
+                .workerLists(new ArrayList<>())
                 .build();
         System.out.println(c2);
 
-        List<Specialization> specList = new ArrayList<>();
-  //      specList.add();
-        Worker w2 = Worker.builder()
-                .salary(2500)
-                .passport(new Passport("MV 78-32-15-15"))
-                .specializationsList(new ArrayList<>())
-                .build();
-        System.out.println(w2);
+//        List<Specialization> specList = new ArrayList<>();
+//  //      specList.add();
+//        Worker w2 = Worker.builder()
+//                .salary(2500)
+//                .passport(new Passport("MV 78-32-15-15"))
+//                .specializationsList(new ArrayList<>())
+//                .build();
+//        System.out.println(w2);
 
 
     }

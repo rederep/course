@@ -15,9 +15,9 @@ import java.util.List;
 public class Client extends Human {
     private LocalDate date;
     @Singular
-    private List<Worker> workers;
+    private List<Worker> workerLists;
     @Singular
-    private List<Subscription>  subscriptions;
+    private List<Subscription>  subscriptionLists;
 
 
 
