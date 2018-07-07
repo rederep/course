@@ -1,6 +1,5 @@
 package dao;
 
-import javax.annotation.PostConstruct;
 
 public enum DBVar {
     DB_CLIENTS("clients"),
@@ -16,7 +15,6 @@ public enum DBVar {
     SALARY("salary"),
 
     ID_CLIENT("id_client"),
-    BIRTHDAY("birthday"),
 
     FIRST_NAME("first_name"),
     LAST_NAME("last_name"),
@@ -33,21 +31,20 @@ public enum DBVar {
     NOTE("note"),
     DATE("date"),
 
-
+    SPWORK_ID("spwork_id"),
     ID_VISIT("id_visit"),
     CLIENT_ID("client_id"),
     SUBS_ID("subscription_id"),
-    SP_WORK("spwork_id"),
 
     ID_SPWORK("id_spwork"),
     WORKER_ID("worker_id"),
     SPEC_ID("specialization_id"),
 
     ID_SUBS("id_subscription"),
-    TITILE("title"),
+    TITLE("title"),
     PRICE("price"),
-    NEMBER_VISITS("number_visits"),
-    NEMBER_DAYS("number_days"),
+    NUMBER_VISITS("number_visits"),
+    NUMBER_DAYS("number_days"),
     DATE_BEGIN("date_begin"),
     DATE_END("date_end"),
     DISC_ID("discount_id"),
@@ -61,7 +58,7 @@ public enum DBVar {
         this.colum = colum;
     }
 
-    public String getVAr() {
+    public String getVar() {
         return colum;
     }
 }

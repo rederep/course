@@ -13,6 +13,7 @@ import java.time.LocalDate;
 @ToString
 
 public class Subscription {
+    private int id;
     private String title;
     private double price;
     private int number_visits;
@@ -20,5 +21,4 @@ public class Subscription {
     private LocalDate dateBegin;
     private LocalDate dateEnd;
     private Discount discount;
-
 }

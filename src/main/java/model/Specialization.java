@@ -12,9 +12,6 @@ import java.time.LocalDate;
 @Getter
 @ToString
 
-
 public class Specialization {
     private String denomination;
-    private LocalDate dateStartWork;
-    private String note;
 }

@@ -10,6 +10,7 @@ import lombok.*;
 @NoArgsConstructor
 
 public class Passport {
+    private int workerID;
     private String info;
 
 }

@@ -10,6 +10,7 @@ import lombok.*;
 @NoArgsConstructor
 
 public abstract class Human {
+    private int id;
     private String firstName;
     private String lastName;
     private String address;

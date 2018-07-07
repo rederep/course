@@ -16,7 +16,7 @@ public class Worker extends Human {
     private double salary;
     private Passport passport;
     @Singular
-    private List<Specialization> specializationsLists;
+    private List<SpecByWorker> specByWorkerLists;
 
 
 }
