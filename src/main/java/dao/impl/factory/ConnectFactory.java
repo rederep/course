@@ -1,22 +1,26 @@
 package dao.impl.factory;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.sql.*;
 
 public class ConnectFactory {
-
+    private static final String FILE_PASSWORD_KEY = "BD.key";
     private static final String DRV = "com.mysql.jdbc.Driver";
     private static final String CONNECT = "jdbc:mysql://178.79.134.250:33061/";
     private static final String DB = "j18test";
     private static final String LOGIN = "j18test";
-    private static final String PASS = "j18parolj18";
-    private static ConnectFactory instance;
+    private String pass = getBDPass();
 
-    public ConnectFactory() throws ClassNotFoundException {
+     private static ConnectFactory instance;
+
+    public ConnectFactory() throws ClassNotFoundException, IOException {
         Class.forName(DRV);
     }
 
     public Connection getConnect() throws SQLException {
-        return DriverManager.getConnection(CONNECT + DB, LOGIN, PASS);
+        return DriverManager.getConnection(CONNECT + DB, LOGIN, pass);
     }
 
     public void closeConnect(Connection connection) throws SQLException {
@@ -47,11 +51,18 @@ public class ConnectFactory {
     }
 
 
-    public static ConnectFactory getInstance() throws ClassNotFoundException {
+    public static ConnectFactory getInstance() throws ClassNotFoundException, IOException {
         if (instance == null) {
             instance = new ConnectFactory();
         }
         return instance;
+    }
+
+    private String getBDPass() throws IOException {
+        BufferedReader br = new BufferedReader(new FileReader(FILE_PASSWORD_KEY));
+        String currentLine = br.readLine() ;
+        br.close();
+        return currentLine;
     }
 
 

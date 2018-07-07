@@ -2,6 +2,7 @@ package dao.impl.factory;
 
 import dao.DBVar;
 
+import java.io.IOException;
 import java.sql.*;
 
 import static dao.impl.factory.ConnectFactory.getInstance;
@@ -94,7 +95,7 @@ public class CreateTableFactory {
     /**
      * Order is important! Table with FOREIGN KEY and REFERENCES
      */
-    public void createAllTableIfNotExists() throws ClassNotFoundException, SQLException {
+    public void createAllTableIfNotExists() throws ClassNotFoundException, SQLException, IOException {
         try {
             conn = getInstance().getConnect();
             stmt = conn.createStatement();
@@ -112,7 +113,7 @@ public class CreateTableFactory {
         }
     }
 
-    public void dropAllTables() throws ClassNotFoundException, SQLException {
+    public void dropAllTables() throws ClassNotFoundException, SQLException, IOException {
         try {
             conn = getInstance().getConnect();
             stmt = conn.createStatement();

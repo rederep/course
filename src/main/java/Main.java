@@ -1,11 +1,15 @@
-import dao.DBVar;
+import dao.AdministratorDAO;
+import dao.impl.AdministratorDAOImpl;
+import dao.impl.factory.ConnectFactory;
 import dao.impl.factory.CreateTableFactory;
+import model.Administrator;
 
+import java.io.IOException;
 import java.sql.SQLException;
 
 
 public class Main {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
        /* Client c1 = new Client(LocalDate.now(), new ArrayList<>(), new ArrayList<>());
         System.out.println(c1);
 
@@ -30,27 +34,14 @@ public class Main {
 //                .build();
 //        System.out.println(w2);
 
+        AdministratorDAO adm = new AdministratorDAOImpl();
+        adm.createPassAdmin(new Administrator("ololol"));
+        System.out.println(adm.checkAdminPass(new Administrator("ololol")));
 
-        CreateTableFactory crt = new  CreateTableFactory();
-        try {
-            try {
-                crt.createAllTableIfNotExists();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }finally {
-            System.out.println("All Table Create Successful");
-        }
+       // CreateTableFactory crt = new CreateTableFactory();
+       // crt.createAllTableIfNotExists();
+       // crt.dropAllTables();
 
-//        try {
-//            crt.dropAllTables();
-//        } catch (ClassNotFoundException e) {
-//            e.printStackTrace();
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
 
     }
 
