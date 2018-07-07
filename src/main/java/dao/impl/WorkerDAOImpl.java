@@ -1,11 +1,12 @@
 package dao.impl;
 
 import dao.WorkerDAO;
+import lombok.NoArgsConstructor;
 import model.Passport;
 import model.Worker;
 
 import java.util.List;
-
+@NoArgsConstructor
 public class WorkerDAOImpl implements WorkerDAO {
     @Override
     public void addWorker(Worker worker) {

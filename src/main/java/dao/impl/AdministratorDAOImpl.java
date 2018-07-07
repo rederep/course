@@ -2,21 +2,24 @@ package dao.impl;
 
 import dao.AdministratorDAO;
 import dao.Password;
+import dao.impl.factory.DAOImplFactory;
+import lombok.NoArgsConstructor;
 import model.Administrator;
 
 import java.io.*;
-
+import java.sql.SQLException;
+@NoArgsConstructor
 public class AdministratorDAOImpl implements AdministratorDAO {
     private static final String FILE_ADMIN_KEY = "admin.key";
 
     @Override
-    public void createAllTables() {
-
+    public void createAllTables() throws SQLException, IOException, ClassNotFoundException {
+        DAOImplFactory.getCreateTableFactoryInstance().createAllTableIfNotExists();
     }
 
     @Override
-    public void deleteAllTables() {
-
+    public void deleteAllTables() throws SQLException, IOException, ClassNotFoundException {
+        DAOImplFactory.getCreateTableFactoryInstance().dropAllTables();
     }
 
     @Override

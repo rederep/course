@@ -1,10 +1,11 @@
 package dao.impl;
 
 import dao.ClientDAO;
+import lombok.NoArgsConstructor;
 import model.Client;
 
 import java.util.List;
-
+@NoArgsConstructor
 public class ClientDAOImpl implements ClientDAO {
     @Override
     public void addClient(Client client) {

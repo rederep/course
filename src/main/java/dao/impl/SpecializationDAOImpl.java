@@ -1,10 +1,11 @@
 package dao.impl;
 
 import dao.SpecializationDAO;
+import lombok.NoArgsConstructor;
 import model.SpecByWorker;
 
 import java.util.List;
-
+@NoArgsConstructor
 public class SpecializationDAOImpl implements SpecializationDAO {
     @Override
     public void addSpecByWorker(SpecByWorker specByWorker) {

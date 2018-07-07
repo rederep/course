@@ -9,7 +9,7 @@ import static dao.impl.factory.ConnectFactory.getInstance;
 
 public class CreateTableFactory {
 
-    private Connection conn;
+    private Connection conn = null;
     private Statement stmt = null;
 
     private final String dropAllTable = "DROP TABLE IF EXISTS " + DBVar.DB_VISITS.getVar() + ", " + DBVar.DB_SPEC_OF_WORK.getVar() + ", " +

@@ -1,11 +1,12 @@
 package dao.impl;
 
 import dao.SubscriptionDAO;
+import lombok.NoArgsConstructor;
 import model.Discount;
 import model.Subscription;
 
 import java.util.List;
-
+@NoArgsConstructor
 public class SubscriptionDAOImpl implements SubscriptionDAO {
     @Override
     public void addSubscription(Subscription subscription) {
