@@ -10,11 +10,14 @@ public enum DBVar {
     DB_DISC("discounts"),
     DB_PASSPORT("passport"),
     DB_SPEC("specializations"),
+    DB_SUBS_TYPE("subscription_types"),
 
     ID_WORKER("id_worker"),
     SALARY("salary"),
 
     ID_CLIENT("id_client"),
+
+
 
     FIRST_NAME("first_name"),
     LAST_NAME("last_name"),
@@ -48,6 +51,9 @@ public enum DBVar {
     DATE_BEGIN("date_begin"),
     DATE_END("date_end"),
     DISC_ID("discount_id"),
+    ID_SUBS_TYPE("id_subs_type"),
+    SUBS_TYPE_ID("subs_type_id"),
+    NUMBER_VISITS_LEFT("number_visits_left"),
 
     ID_DISC("id_discount");
 

@@ -1,6 +1,9 @@
 package dao.impl.factory;
 
+import exception.BD.FileNotFoundBDConfigEX;
+
 import java.io.BufferedReader;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.sql.*;
@@ -15,7 +18,7 @@ public class ConnectFactory {
 
      private static ConnectFactory instance;
 
-    public ConnectFactory() throws ClassNotFoundException, IOException {
+    public ConnectFactory() throws ClassNotFoundException, IOException, FileNotFoundBDConfigEX {
         Class.forName(DRV);
     }
 
@@ -51,17 +54,32 @@ public class ConnectFactory {
     }
 
 
-    public static ConnectFactory getInstance() throws ClassNotFoundException, IOException {
+    public static ConnectFactory getInstance() throws ClassNotFoundException, IOException, FileNotFoundBDConfigEX {
         if (instance == null) {
             instance = new ConnectFactory();
         }
         return instance;
     }
 
-    private String getBDPass() throws IOException {
-        BufferedReader br = new BufferedReader(new FileReader(FILE_PASSWORD_KEY));
-        String currentLine = br.readLine() ;
-        br.close();
+    private String getBDPass() throws FileNotFoundBDConfigEX {
+        BufferedReader br = null;
+        try {
+            br = new BufferedReader(new FileReader(FILE_PASSWORD_KEY));
+        } catch (FileNotFoundException e) {
+            throw new FileNotFoundBDConfigEX();
+        }
+        String currentLine = null;
+        try {
+            try {
+                currentLine = br.readLine();
+                br.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+        }
         return currentLine;
     }
 

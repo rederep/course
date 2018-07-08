@@ -1,23 +1,21 @@
 package model;
 
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 import java.time.LocalDate;
 
 @Getter
 @Setter
-@RequiredArgsConstructor
+@AllArgsConstructor
+@NoArgsConstructor
 @ToString
+@Builder
 
 public class Subscription {
     private int id;
-    private String title;
+    private SubsType subsType;
     private double price;
-    private int number_visits;
-    private int number_days;
+    private int numberVisitsLeft;
     private LocalDate dateBegin;
     private LocalDate dateEnd;
     private Discount discount;

@@ -1,6 +1,7 @@
 package dao.impl.factory;
 
 import dao.DBVar;
+import exception.BD.FileNotFoundBDConfigEX;
 
 import java.io.IOException;
 import java.sql.*;
@@ -14,7 +15,7 @@ public class CreateTableFactory {
 
     private final String dropAllTable = "DROP TABLE IF EXISTS " + DBVar.DB_VISITS.getVar() + ", " + DBVar.DB_SPEC_OF_WORK.getVar() + ", " +
             DBVar.DB_SUBS.getVar() + ", " + DBVar.DB_SPEC.getVar() + ", " + DBVar.DB_DISC.getVar() + ", " + DBVar.DB_PASSPORT.getVar() + ", " +
-            DBVar.DB_WORKERS.getVar() +", " + DBVar.DB_CLIENTS.getVar() + ";";
+            DBVar.DB_WORKERS.getVar() + ", " + DBVar.DB_CLIENTS.getVar() + ", " + DBVar.DB_SUBS_TYPE.getVar() + ";";
 
     private final String crtTableClients = "CREATE TABLE IF NOT EXISTS " + DBVar.DB_CLIENTS.getVar() + " (" +
             DBVar.ID_CLIENT.getVar() + " int unsigned not null auto_increment primary key, " +
@@ -50,17 +51,25 @@ public class CreateTableFactory {
 
     private final String crtTableSubscriptions = "CREATE TABLE IF NOT EXISTS " + DBVar.DB_SUBS.getVar() + " (" +
             DBVar.ID_SUBS.getVar() + " int unsigned not null auto_increment primary key, " +
-            DBVar.TITLE.getVar() + " varchar(20) not null default 'new_subs', " +
+            DBVar.SUBS_TYPE_ID.getVar() + " int unsigned default null, " +
             DBVar.PRICE.getVar() + " double not null default 0, " +
-            DBVar.NUMBER_VISITS.getVar() + " int not null default 0, " +
-            DBVar.NUMBER_DAYS.getVar() + " int not null default 0, " +
+            DBVar.NUMBER_VISITS_LEFT.getVar() + " int not null default 0, " +
             DBVar.DATE_BEGIN.getVar() + " date default null, " +
             DBVar.DATE_END.getVar() + " date default null, " +
             DBVar.DISC_ID.getVar() + " int unsigned default null, " +
             DBVar.DELETED.getVar() + " tinyint default 0, " +
-            "FOREIGN KEY (" + DBVar.DISC_ID.getVar() + ") REFERENCES " + DBVar.DB_DISC.getVar() + " (" + DBVar.ID_DISC.getVar() + ")" +
+            "FOREIGN KEY (" + DBVar.DISC_ID.getVar() + ") REFERENCES " + DBVar.DB_DISC.getVar() + " (" + DBVar.ID_DISC.getVar() + "), " +
+            "FOREIGN KEY (" + DBVar.SUBS_TYPE_ID.getVar() + ") REFERENCES " + DBVar.DB_SUBS_TYPE.getVar() + " (" + DBVar.ID_SUBS_TYPE.getVar() + ")" +
             ");";
 
+    private final String crtTableSubsTypes = "CREATE TABLE IF NOT EXISTS " + DBVar.DB_SUBS_TYPE.getVar() + " (" +
+            DBVar.ID_SUBS_TYPE.getVar() + " int unsigned not null auto_increment primary key, " +
+            DBVar.TITLE.getVar() + " varchar(20) not null default 'new_subs', " +
+            DBVar.NUMBER_VISITS.getVar() + " int not null default 0, " +
+            DBVar.NUMBER_DAYS.getVar() + " int not null default 0, " +
+            DBVar.NOTE.getVar() + " varchar(255) default null, " +
+            DBVar.DELETED.getVar() + " tinyint default 0 " +
+            ");";
     private final String crtTableSpecOfWorks = "CREATE TABLE IF NOT EXISTS " + DBVar.DB_SPEC_OF_WORK.getVar() + " (" +
             DBVar.ID_SPWORK.getVar() + " int unsigned not null auto_increment primary key, " +
             DBVar.WORKER_ID.getVar() + " int unsigned not null, " +
@@ -95,14 +104,16 @@ public class CreateTableFactory {
     /**
      * Order is important! Table with FOREIGN KEY and REFERENCES
      */
-    public void createAllTableIfNotExists() throws ClassNotFoundException, SQLException, IOException {
+    public void createAllTableIfNotExists() throws ClassNotFoundException, SQLException, IOException, FileNotFoundBDConfigEX {
         try {
             conn = getInstance().getConnect();
             stmt = conn.createStatement();
+
             stmt.execute(crtTableClients);
             stmt.execute(crtTableWorkers);
             stmt.execute(crtTablePassport);
             stmt.execute(crtTableDiscouns);
+            stmt.execute(crtTableSubsTypes);
             stmt.execute(crtTableSpecializations);
             stmt.execute(crtTableSubscriptions);
             stmt.execute(crtTableSpecOfWorks);
@@ -113,7 +124,7 @@ public class CreateTableFactory {
         }
     }
 
-    public void dropAllTables() throws ClassNotFoundException, SQLException, IOException {
+    public void dropAllTables() throws ClassNotFoundException, SQLException, IOException, FileNotFoundBDConfigEX {
         try {
             conn = getInstance().getConnect();
             stmt = conn.createStatement();

@@ -1,17 +1,17 @@
 package model;
 
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 import java.time.LocalDate;
 
-@RequiredArgsConstructor
+@AllArgsConstructor
+@NoArgsConstructor
 @Setter
 @Getter
 @ToString
+@Builder
 
 public class Specialization {
+    private int id;
     private String denomination;
 }
