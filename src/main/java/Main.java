@@ -69,7 +69,6 @@ public class Main {
 
         //  System.out.println(subs.getAllSubsType());
 
-
         VisitDAOImpl v = new VisitDAOImpl();
         //  v.addVisit(1,2,1);
         //      System.out.println(v.getAllVisitsID());

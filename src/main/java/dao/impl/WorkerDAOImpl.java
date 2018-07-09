@@ -64,7 +64,9 @@ public class WorkerDAOImpl implements WorkerDAO {
             getInstance().closePreparedStatement(pst);
             getInstance().closeConnect(conn);
         }
-        addPassport(worker.getPassport());
+        //in h2 do not work :(
+        System.out.println(worker.getPassport().getWorkerID());
+       //  addPassport(worker.getPassport());
     }
 
     @Override
@@ -185,8 +187,8 @@ public class WorkerDAOImpl implements WorkerDAO {
         try {
             conn = getInstance().getConnect();
             pst = conn.prepareStatement(INSERT_PASSPORT);
-            pst.setInt(1, passport.getWorkerID());
-            pst.setString(2, passport.getInfo());
+          //  pst.setInt(1, passport.getWorkerID());
+            pst.setString(1, passport.getInfo());
             pst.execute();
         } finally {
             getInstance().closePreparedStatement(pst);

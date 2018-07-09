@@ -9,21 +9,31 @@ import java.io.IOException;
 import java.sql.*;
 
 public class ConnectFactory {
-    private static final String FILE_PASSWORD_KEY = "BD.key";
-    private static final String DRV = "com.mysql.jdbc.Driver";
-    private static final String CONNECT = "jdbc:mysql://178.79.134.250:33061/";
-    private static final String DB = "j18test";
-    private static final String LOGIN = "j18test";
+    /** For MySql DB connect*/
+     private static final String FILE_PASSWORD_KEY = "BD.key";
+//    private static final String DRV = "com.mysql.jdbc.Driver";
+//    private static final String CONNECT = "jdbc:mysql://178.79.134.250:33061/";
+//    private static final String DB = "j18test";
+//    private static final String LOGIN = "j18test";
+
     private String pass = getBDPass();
+
+
+    private static final String DRV = "org.h2.Driver";
+    private static final String CONNECT = "jdbc:h2:./";
+    private static final String DB = "j18test";
 
      private static ConnectFactory instance;
 
     public ConnectFactory() throws ClassNotFoundException, IOException, FileNotFoundBDConfigEX {
         Class.forName(DRV);
+
     }
 
     public Connection getConnect() throws SQLException {
-        return DriverManager.getConnection(CONNECT + DB, LOGIN, pass);
+        //For mysql DB
+        //   return DriverManager.getConnection(CONNECT + DB, LOGIN, pass);
+        return DriverManager.getConnection(CONNECT + DB);
     }
 
     public void closeConnect(Connection connection) throws SQLException {
