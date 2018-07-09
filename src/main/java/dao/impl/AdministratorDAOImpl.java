@@ -3,7 +3,7 @@ package dao.impl;
 import dao.AdministratorDAO;
 import dao.Password;
 import dao.impl.factory.DAOImplFactory;
-import exception.BD.FileNotFoundBDConfigEX;
+import exception.BD.*;
 import exception.FileNotFoundBDConfigAdm;
 import lombok.NoArgsConstructor;
 import model.*;
@@ -26,39 +26,48 @@ public class AdministratorDAOImpl implements AdministratorDAO {
         DAOImplFactory.getCreateTableFactoryInstance().dropAllTables();
     }
 
+
     @Override
-    public void insertAllTables() throws ClassNotFoundException, SQLException, FileNotFoundBDConfigEX, IOException {
-        SpecializationDAOImpl sp = new SpecializationDAOImpl();
-        SubscriptionDAOImpl subs = new SubscriptionDAOImpl();
-        sp.addSpecialization(new Specialization(1,"Trainer"));
-        sp.addSpecialization(new Specialization(2,"Bodybuilder"));
-        sp.addSpecialization(new Specialization(3,"Masseur"));
-        sp.addSpecialization(new Specialization(4,"Fitness trainer"));
-        sp.addSpecialization(new Specialization(5,"Boxer"));
-        sp.addSpecialization(new Specialization(6,"Kick boxer"));
-        sp.addSpecialization(new Specialization(7,"Judoka"));
-        sp.addSpecialization(new Specialization(8,"Cleaner"));
-        sp.addSpecialization(new Specialization(9,"Manager"));
-        sp.addSpecialization(new Specialization(10,"Accountant"));
-        sp.addSpecialization(new Specialization(11,"Director"));
-        sp.addSpecialization(new Specialization(12,"Seller"));
+    public void insertAllTables(GenericObjectT object) throws ClassNotFoundException, SQLException, FileNotFoundBDConfigEX, IOException, NoPramToInsertBDEX, ChoosingSubscriptionEX, ChoosingWorkerEX, ChoosingClientEX {
+        String objName = object.getT().getClass().getSimpleName();
+        if (objName.equals(SubsType.class.getSimpleName())) {
+            SubscriptionDAOImpl result = DAOImplFactory.getSubscriptionInstance();
+            result.addSubsType((SubsType) object.getT());
+        } else if (objName.equals(Specialization.class.getSimpleName())) {
+            SpecializationDAOImpl result = DAOImplFactory.getSpecializationInstance();
+            result.addSpecialization((Specialization) object.getT());
+        } else if (objName.equals(Discount.class.getSimpleName())) {
+            SubscriptionDAOImpl result = DAOImplFactory.getSubscriptionInstance();
+            result.addDiscount((Discount) object.getT());
+
+        } else if (objName.equals(Client.class.getSimpleName())) {
+            ClientDAOImpl result = DAOImplFactory.getClientInstance();
+            result.addClient((Client) object.getT());
+        } else if (objName.equals(Worker.class.getSimpleName())) {
+            WorkerDAOImpl result = DAOImplFactory.getWorkerInstance();
+            result.addWorker((Worker) object.getT());
+        } else if (objName.equals(Subscription.class.getSimpleName())) {
+            SubscriptionDAOImpl result = DAOImplFactory.getSubscriptionInstance();
+            result.addSubscription((Subscription) object.getT());
+        } else if (objName.equals(SpecByWorker.class.getSimpleName())) {
+            SpecializationDAOImpl result = DAOImplFactory.getSpecializationInstance();
+            result.addSpecByWorker((SpecByWorker) object.getT());
+        } else if (objName.equals(Visit.class.getSimpleName())) {
+            VisitDAOImpl result = DAOImplFactory.getVisitInstance();
+            result.addVisit((Visit) object.getT());
+        } else {
+            throw new NoPramToInsertBDEX();
+        }
 
 
-        subs.addDiscount(new Discount(1,"none", ""));
-        subs.addDiscount(new Discount(2,"Summer", "-20%"));
-        subs.addDiscount(new Discount(3,"Summer-forever", "Every second towel is free of charge"));
-        subs.addDiscount(new Discount(1,"Be a strong", "-15%"));
-        subs.addDiscount(new Discount(1,"King lower", "-30% for private lessons"));
-        subs.addDiscount(new Discount(1,"Money back", "-50% for the next month"));
-        subs.addDiscount(new Discount(1,"Last champion", "+25% time for classes training"));
+        //  }
 
-        subs.addSubsType(new SubsType(1, "Lite subs", 8,0,"Homeless subscription" ));
-        subs.addSubsType(new SubsType(1, "Middle subs", 18,0,"" ));
-        subs.addSubsType(new SubsType(1, "Pro subs", 0,30,"" ));
-        subs.addSubsType(new SubsType(1, "Unlim subs", 0,90,"" ));
-        subs.addSubsType(new SubsType(1, "King subs", 0,180,"" ));
-        subs.addSubsType(new SubsType(1, "Master subs", 10,10,"" ));
-        subs.addSubsType(new SubsType(1, "Student subs", 10,0,"" ));
+
+//
+//
+
+//
+
     }
 
     @Override
@@ -70,7 +79,7 @@ public class AdministratorDAOImpl implements AdministratorDAO {
             bw.close();
         } catch (FileNotFoundException e) {
             throw new FileNotFoundBDConfigAdm();
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
@@ -80,12 +89,12 @@ public class AdministratorDAOImpl implements AdministratorDAO {
     public boolean checkAdminPass(Administrator administrator) throws FileNotFoundBDConfigAdm {
         boolean isPass = false;
         try {
-        BufferedReader br = new BufferedReader(new FileReader(FILE_ADMIN_KEY));
-        isPass = Password.check(administrator.getPassword(), br.readLine());
-        br.close();
+            BufferedReader br = new BufferedReader(new FileReader(FILE_ADMIN_KEY));
+            isPass = Password.check(administrator.getPassword(), br.readLine());
+            br.close();
         } catch (FileNotFoundException e) {
             throw new FileNotFoundBDConfigAdm();
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return isPass;

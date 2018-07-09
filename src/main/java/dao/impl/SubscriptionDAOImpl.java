@@ -11,6 +11,7 @@ import model.Subscription;
 
 import java.io.IOException;
 import java.sql.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -68,17 +69,25 @@ public class SubscriptionDAOImpl implements SubscriptionDAO {
             conn = getInstance().getConnect();
             pst = conn.prepareStatement(INSERT_SUBS);
             try {
-            pst.setInt(1, subscription.getSubsType().getId());
-            }catch (NullPointerException e){
-               throw new ChoosingSubscriptionEX();
+                pst.setInt(1, subscription.getSubsType().getId());
+            } catch (NullPointerException e) {
+                throw new ChoosingSubscriptionEX();
             }
             pst.setDouble(2, subscription.getPrice());
             pst.setInt(3, subscription.getNumberVisitsLeft());
-            pst.setDate(4, Date.valueOf(subscription.getDateBegin()));
-            pst.setDate(5, Date.valueOf(subscription.getDateEnd()));
+            try {
+                pst.setDate(4, Date.valueOf(subscription.getDateBegin()));
+            } catch (NullPointerException e) {
+                pst.setDate(4, Date.valueOf(LocalDate.now()));
+            }
+            try {
+                pst.setDate(5, Date.valueOf(subscription.getDateEnd()));
+            } catch (NullPointerException e) {
+                pst.setDate(5, Date.valueOf(LocalDate.now()));
+            }
             try {
                 pst.setInt(6, subscription.getDiscount().getId());
-            }catch (NullPointerException e){
+            } catch (NullPointerException e) {
                 pst.setInt(6, 1);
             }
             pst.execute();
@@ -145,7 +154,7 @@ public class SubscriptionDAOImpl implements SubscriptionDAO {
                 subscription.setSubsType(getSubsTypeInner(rs.getInt(DBVar.SUBS_TYPE_ID.getVar())));
                 subscription.setPrice(rs.getDouble(DBVar.PRICE.getVar()));
                 subscription.setNumberVisitsLeft(rs.getInt(DBVar.NUMBER_VISITS_LEFT.getVar()));
-                 subscription.setDateBegin(rs.getDate(DBVar.DATE_BEGIN.getVar()).toLocalDate());
+                subscription.setDateBegin(rs.getDate(DBVar.DATE_BEGIN.getVar()).toLocalDate());
                 subscription.setDateEnd(rs.getDate(DBVar.DATE_END.getVar()).toLocalDate());
                 subscription.setDiscount(getDiscountInner(rs.getInt(DBVar.DISC_ID.getVar())));
                 result.add(subscription);
@@ -273,7 +282,7 @@ public class SubscriptionDAOImpl implements SubscriptionDAO {
     }
 
     @Override
-    public Discount getDiscount(int discountID) throws FileNotFoundBDConfigEX, IOException, ClassNotFoundException, SQLException {
+    public synchronized Discount  getDiscount(int discountID) throws FileNotFoundBDConfigEX, IOException, ClassNotFoundException, SQLException {
         Discount discount = new Discount();
         try {
             conn = getInstance().getConnect();
@@ -380,7 +389,7 @@ public class SubscriptionDAOImpl implements SubscriptionDAO {
     }
 
     @Override
-    public SubsType getSubsType(int subTypeID) throws FileNotFoundBDConfigEX, IOException, ClassNotFoundException, SQLException {
+    public synchronized SubsType getSubsType(int subTypeID) throws FileNotFoundBDConfigEX, IOException, ClassNotFoundException, SQLException {
         SubsType subsType = new SubsType();
         try {
             conn = getInstance().getConnect();
@@ -409,7 +418,7 @@ public class SubscriptionDAOImpl implements SubscriptionDAO {
         try {
             pstTemp = conn.prepareStatement(GET_SUBS_TYPE);
             pstTemp.setInt(1, subTypeID);
-            rsTemp =  pstTemp.executeQuery();
+            rsTemp = pstTemp.executeQuery();
             rsTemp.first();
             subsType.setId(subTypeID);
             subsType.setTitle(rsTemp.getString(DBVar.TITLE.getVar()));

@@ -7,6 +7,7 @@ import exception.BD.ChoosingSubscriptionEX;
 import exception.BD.ChoosingWorkerEX;
 import exception.BD.FileNotFoundBDConfigEX;
 import lombok.NoArgsConstructor;
+import model.Client;
 import model.Discount;
 import model.Visit;
 
@@ -31,10 +32,12 @@ public class VisitDAOImpl implements VisitDAO {
             , DBVar.DB_VISITS.getVar(), DBVar.WORKER_ID.getVar(), DBVar.DELETED.getVar());
     private static final String INSERT_VISITS = String.format("INSERT INTO %s (%s, %s, %s) VALUES (?, ?, ?);"
             , DBVar.DB_VISITS.getVar(), DBVar.CLIENT_ID.getVar(), DBVar.SUBS_ID.getVar(), DBVar.WORKER_ID.getVar());
-    private static final String DELETE_VISITS = String.format("UPDATE %s SET %s = ?  WHERE %s = ?;"
-            , DBVar.DB_VISITS.getVar(), DBVar.DELETED.getVar(), DBVar.ID_VISIT.getVar());
     private static final String UPDATE_VISITS = String.format("UPDATE %s SET %s = ?, %s = ?, %s = ?  WHERE %s = ?;"
             , DBVar.DB_VISITS.getVar(), DBVar.CLIENT_ID.getVar(), DBVar.SUBS_ID.getVar(), DBVar.WORKER_ID.getVar(), DBVar.ID_VISIT.getVar());
+    private static final String DELETE_VISITS= String.format("UPDATE %s SET %s = ?  WHERE %s = ?;"
+            , DBVar.DB_VISITS.getVar(), DBVar.DELETED.getVar(), DBVar.ID_VISIT.getVar());
+    private static final String DELETE_VISITS_BY_CLIENT= String.format("UPDATE %s SET %s = ?  WHERE %s = ?;"
+            , DBVar.DB_VISITS.getVar(), DBVar.DELETED.getVar(), DBVar.CLIENT_ID.getVar());
 
     private Connection conn;
     private PreparedStatement pst = null;
@@ -44,22 +47,22 @@ public class VisitDAOImpl implements VisitDAO {
     private ResultSet rsTemp = null;
 
     @Override
-    public void addVisit(int clientId, int subscriptionId, int workerId) throws SQLException, FileNotFoundBDConfigEX, IOException, ClassNotFoundException, ChoosingClientEX, ChoosingSubscriptionEX, ChoosingWorkerEX {
+    public void addVisit(Visit visit) throws SQLException, FileNotFoundBDConfigEX, IOException, ClassNotFoundException, ChoosingClientEX, ChoosingSubscriptionEX, ChoosingWorkerEX {
         try {
             conn = getInstance().getConnect();
             pst = conn.prepareStatement(INSERT_VISITS);
             try {
-                pst.setInt(1, clientId);
+                pst.setInt(1, visit.getClientID());
             } catch (NullPointerException e) {
                 throw new ChoosingClientEX();
             }
             try {
-                pst.setInt(2, subscriptionId);
+                pst.setInt(2, visit.getSubscriptionID());
             } catch (NullPointerException e) {
                 throw new ChoosingSubscriptionEX();
             }
             try {
-                pst.setInt(3, workerId);
+                pst.setInt(3, visit.getWorkerID());
             } catch (NullPointerException e) {
                 throw new ChoosingWorkerEX();
             }
@@ -88,27 +91,44 @@ public class VisitDAOImpl implements VisitDAO {
     }
 
     @Override
-    public void updateVisit(int visitID, int clientId, int subscriptionId, int workerId) throws FileNotFoundBDConfigEX, IOException, ClassNotFoundException, ChoosingWorkerEX, ChoosingSubscriptionEX, ChoosingClientEX, SQLException {
+    public void deleteVisitByClientID(int clientID) throws FileNotFoundBDConfigEX, IOException, ClassNotFoundException, SQLException {
+        try {
+            conn = getInstance().getConnect();
+            pst = conn.prepareStatement(DELETE_VISITS_BY_CLIENT);
+            pst.setInt(1, 1);
+            pst.setInt(2, clientID);
+            pst.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            getInstance().closePreparedStatement(pst);
+            getInstance().closeConnect(conn);
+        }
+
+    }
+
+    @Override
+    public void updateVisit(Visit visit) throws FileNotFoundBDConfigEX, IOException, ClassNotFoundException, ChoosingWorkerEX, ChoosingSubscriptionEX, ChoosingClientEX, SQLException {
         try {
             conn = getInstance().getConnect();
             conn.setAutoCommit(false);
             pst = conn.prepareStatement(UPDATE_VISITS);
             try {
-                pst.setInt(1, clientId);
+                pst.setInt(1, visit.getClientID());
             } catch (NullPointerException e) {
                 throw new ChoosingClientEX();
             }
             try {
-                pst.setInt(2, subscriptionId);
+                pst.setInt(2, visit.getSubscriptionID());
             } catch (NullPointerException e) {
                 throw new ChoosingSubscriptionEX();
             }
             try {
-                pst.setInt(3, workerId);
+                pst.setInt(3, visit.getWorkerID());
             } catch (NullPointerException e) {
                 throw new ChoosingWorkerEX();
             }
-            pst.setInt(4, visitID);
+            pst.setInt(4, visit.getId());
             pst.execute();
             conn.commit();
         } catch (SQLException e) {

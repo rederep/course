@@ -2,15 +2,18 @@ package dao.impl;
 
 import dao.ClientDAO;
 import dao.DBVar;
+import dao.impl.factory.DAOImplFactory;
 import exception.BD.FileNotFoundBDConfigEX;
 import lombok.NoArgsConstructor;
 import model.Client;
+import model.Visit;
 
 
 import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static dao.impl.factory.ConnectFactory.getInstance;
 
@@ -147,6 +150,14 @@ public class ClientDAOImpl implements ClientDAO {
         } finally {
             getInstance().closePreparedStatement(pst);
             getInstance().closeConnect(conn);
+        }
+
+        List<Integer> lstSubsID = DAOImplFactory.getVisitInstance().getAllVisitsByClientID(clientID).stream()
+                .map(Visit::getSubscriptionID)
+                .collect(Collectors.toList());
+        DAOImplFactory.getVisitInstance().deleteVisitByClientID(clientID);
+        for (Integer integer : lstSubsID) {
+            DAOImplFactory.getSubscriptionInstance().deleteSubscription(integer);
         }
     }
 
