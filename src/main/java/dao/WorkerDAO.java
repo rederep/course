@@ -14,7 +14,7 @@ public interface WorkerDAO {
     void updateWorker (Worker worker) throws FileNotFoundBDConfigEX, IOException, ClassNotFoundException, SQLException;
     Worker getWorker(int workerID) throws FileNotFoundBDConfigEX, IOException, ClassNotFoundException, SQLException;
     void deleteWorker (int workerID) throws FileNotFoundBDConfigEX, IOException, ClassNotFoundException, SQLException;
-    List<Worker> getWorkersBy (Worker worker);
+    List<Worker> getWorkersByName (String name) throws FileNotFoundBDConfigEX, IOException, ClassNotFoundException, SQLException;
 
     void addPassport (Passport passport) throws FileNotFoundBDConfigEX, IOException, ClassNotFoundException, SQLException;
     void deletePassport (int workerID) throws FileNotFoundBDConfigEX, IOException, ClassNotFoundException, SQLException;

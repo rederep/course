@@ -5,7 +5,7 @@ import service.*;
 
 
 public class Main {
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args)  {
         //    Client c1 = new Client(LocalDate.now(), new ArrayList<>(), new ArrayList<>());
         //     System.out.println(c1);
         //  Client.builder().
@@ -26,7 +26,7 @@ public class Main {
 //        System.out.println(w2);
 
 
-        AdministratorSrvc adm = new AdministratorSrvc();
+     //   AdministratorSrvc adm = new AdministratorSrvc();
         //adm.createAllTables();
         // adm.insertAllTables();
 
@@ -37,7 +37,12 @@ public class Main {
         // CreateTableFactory crt = new CreateTableFactory();
         // crt.createAllTableIfNotExists();
 
-        ClientDAOImpl clientDAO = new ClientDAOImpl();
+//        ClientDAOImpl clientDAO = new ClientDAOImpl();
+//       clientDAO.getClientsByName("ada").forEach(System.out::println);
+//
+//
+//       WorkerDAOImpl workerDAO = new WorkerDAOImpl();
+//       workerDAO.getWorkersByName("osha").forEach(System.out::println);
 
         //     clientDAO.addClient(new Client(0,"Pervok", "ololol", "Street 22", "338-44-11", LocalDate.now()));
 
@@ -55,7 +60,7 @@ public class Main {
         //  System.out.println(worker.getAllWorkers());
         // System.out.println(worker.getWorker(8));
 
-        SubscriptionDAOImpl subs = new SubscriptionDAOImpl();
+      //  SubscriptionDAOImpl subs = new SubscriptionDAOImpl();
         //  System.out.println(subs.getAllDiscounts());
         //  subs.addSubscription(Subscription.builder().subsType(SubsType.builder().id(3).build()).price(500).dateBegin(LocalDate.now()).dateEnd(LocalDate.now().plusMonths(3)).build());
         //  System.out.println(subs.getAllSubscriptions());
@@ -63,7 +68,7 @@ public class Main {
 
         //  System.out.println(subs.getAllSubsType());
 
-        VisitDAOImpl v = new VisitDAOImpl();
+     //   VisitDAOImpl v = new VisitDAOImpl();
         //  v.addVisit(1,2,1);
         //      System.out.println(v.getAllVisitsID());
 

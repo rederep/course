@@ -7,17 +7,20 @@ import java.util.Scanner;
 
 public class AdministratorCntrl {
     private AdministratorSrvc admSrv = new AdministratorSrvc();
+    protected static boolean exit = false;
 
-    public void doWork() {
-            showHelloMMessage();
-            showMenu();
-            ChoiceMain();
-            System.out.println();
+    static {
+        showHelloMMessage();
     }
 
+    public void doWork() {
+        exit = false;
+        showMenu();
+        ChoiceMain();
+        System.out.println();
+    }
 
-
-    private void showHelloMMessage() {
+    private static void showHelloMMessage() {
         System.out.println();
         System.out.println("******************");
         System.out.println("Administrator Menu");
@@ -31,7 +34,7 @@ public class AdministratorCntrl {
         System.out.println("2. Insert All Tables");
         System.out.println("3. Drop All Tables");
         System.out.println("4. Change password");
-        System.out.println("0. Exit");
+        System.out.println("0. Return");
         System.out.print("Enter Value: ");
 
     }
@@ -55,10 +58,10 @@ public class AdministratorCntrl {
                 System.out.println("Are you sure wont drop all tables with informations?");
                 System.out.print("Enter \"yes\" to drop:");
                 Scanner str = new Scanner(System.in);
-                if("yes".equals(str.nextLine())){
+                if ("yes".equals(str.nextLine())) {
                     admSrv.deleteAllTables();
                     System.out.println("All tables drop successful!");
-                }else {
+                } else {
                     System.out.println("Wrong YES");
                 }
                 break;
@@ -72,6 +75,7 @@ public class AdministratorCntrl {
                 break;
             }
             case 0: {
+                exit = true;
                 break;
             }
             default: {

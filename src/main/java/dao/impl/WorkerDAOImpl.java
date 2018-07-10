@@ -30,6 +30,8 @@ public class WorkerDAOImpl implements WorkerDAO {
 
     private static final String GET_ALL_WORKER = String.format("SELECT * FROM %s where %s != 1;"
             , DBVar.DB_WORKERS.getVar(), DBVar.DELETED.getVar());
+    private static final String GET_ALL_WORKER_BY_NAME = String.format("SELECT * FROM %s where (%s like ? or %s like ?) and %s != 1;"
+            , DBVar.DB_WORKERS.getVar(), DBVar.LAST_NAME.getVar(), DBVar.FIRST_NAME.getVar(), DBVar.DELETED.getVar());
     private static final String GET_WORKER = String.format("SELECT * FROM %s where %s=? and %s != 1;"
             , DBVar.DB_WORKERS.getVar(), DBVar.ID_WORKER.getVar(), DBVar.DELETED.getVar());
     private static final String INSERT_WORKER = String.format("INSERT INTO %s (%s, %s, %s, %s, %s) VALUES (?, ?, ?, ?, ?);"
@@ -177,8 +179,33 @@ public class WorkerDAOImpl implements WorkerDAO {
 
 
     @Override
-    public List<Worker> getWorkersBy(Worker worker) {
-        return null;
+    public List<Worker> getWorkersByName(String name) throws FileNotFoundBDConfigEX, IOException, ClassNotFoundException, SQLException {
+        List<Worker> result = new ArrayList<>();
+        try {
+            conn = getInstance().getConnect();
+            pst = conn.prepareStatement(GET_ALL_WORKER_BY_NAME);
+            pst.setString(1, "%" + name + "%");
+            pst.setString(2, "%" + name + "%");
+            rs = pst.executeQuery();
+            while (rs.next()) {
+                Worker worker = new Worker();
+                worker.setId(rs.getInt(DBVar.ID_WORKER.getVar()));
+                worker.setFirstName(rs.getString(DBVar.FIRST_NAME.getVar()));
+                worker.setLastName(rs.getString(DBVar.LAST_NAME.getVar()));
+                worker.setAddress(rs.getString(DBVar.ADDRESS.getVar()));
+                worker.setTelephone(rs.getString(DBVar.TELEPHONE.getVar()));
+                worker.setSalary(rs.getDouble(DBVar.SALARY.getVar()));
+                worker.setPassport(getPassportInner(worker.getId()));
+                result.add(worker);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            getInstance().closeResaultSet(rs);
+            getInstance().closeStatement(pst);
+            getInstance().closeConnect(conn);
+        }
+        return result;
     }
 
 

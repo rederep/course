@@ -37,10 +37,12 @@ public class ClientSrvc {
 
 
 
-    public List<Client> getAllClients() throws FileNotFoundBDConfigEX{
+    public List<Client> getAllClients() throws FileNotFoundBDConfigEX, ModelNotFoundEX {
         List<Client> clientList = null;
         try {
             clientList = clientDAO.getAllClients();
+        }catch (NullPointerException e) {
+            throw new ModelNotFoundEX("All Clients");
         } catch (IOException e) {
             e.printStackTrace();
         } catch (ClassNotFoundException e) {
@@ -63,7 +65,7 @@ public class ClientSrvc {
                 List<Worker> workerList = new ArrayList<>();
                 List<Subscription> subscriptionList = new ArrayList<>();
                 for (Visit visit : visitSrvc.getAllVisitsByClientID(client.getId())) {
-                    workerList.add(workerSrvc.getWorker(visit.getWorkerID()));
+                    workerList.add(workerSrvc.getFullWorker(visit.getWorkerID()));
                 }
                 for (Visit visit : visitSrvc.getAllVisitsBySubsID(client.getId())) {
                     subscriptionList.add(subscriptionSrvc.getSubscription(visit.getSubscriptionID()));
@@ -71,7 +73,9 @@ public class ClientSrvc {
                 client.setWorkerLists(workerList);
                 client.setSubscriptionLists(subscriptionList);
             }
-        } catch (IOException e) {
+        } catch (NullPointerException e) {
+            throw new ModelNotFoundEX("Full clients information");
+        }catch (IOException e) {
             e.printStackTrace();
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
@@ -122,10 +126,34 @@ public class ClientSrvc {
         }
     }
 
-    public List<Client> getClientsBy(Client client) {
+    public List<Client> getClientsByName(String name) throws FileNotFoundBDConfigEX, ModelNotFoundEX {
         List<Client> clientList = null;
 
-        clientList = clientDAO.getClientsBy(client);
+        try {
+            clientList = clientDAO.getClientsByName(name);
+            VisitSrvc visitSrvc = new VisitSrvc();
+            WorkerSrvc workerSrvc = new WorkerSrvc();
+            SubscriptionSrvc subscriptionSrvc = new SubscriptionSrvc();
+
+            for (Client client : clientList) {
+                List<Worker> workerList = new ArrayList<>();
+                List<Subscription> subscriptionList = new ArrayList<>();
+                for (Visit visit : visitSrvc.getAllVisitsByClientID(client.getId())) {
+                    workerList.add(workerSrvc.getFullWorker(visit.getWorkerID()));
+                }
+                for (Visit visit : visitSrvc.getAllVisitsBySubsID(client.getId())) {
+                    subscriptionList.add(subscriptionSrvc.getSubscription(visit.getSubscriptionID()));
+                }
+                client.setWorkerLists(workerList);
+                client.setSubscriptionLists(subscriptionList);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 
         return clientList;
     }

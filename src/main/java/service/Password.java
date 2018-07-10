@@ -1,4 +1,4 @@
-package dao;
+package service;
 
 import org.apache.commons.codec.binary.Base64;
 

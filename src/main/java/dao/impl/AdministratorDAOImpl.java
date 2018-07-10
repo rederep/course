@@ -1,7 +1,7 @@
 package dao.impl;
 
 import dao.AdministratorDAO;
-import dao.Password;
+import service.Password;
 import dao.impl.factory.DAOImplFactory;
 import exception.BD.*;
 import exception.FileNotFoundBDConfigAdm;

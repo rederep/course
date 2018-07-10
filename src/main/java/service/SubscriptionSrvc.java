@@ -56,10 +56,12 @@ public class SubscriptionSrvc {
         }
     }
 
-    public List<Subscription> getAllSubscriptions() throws FileNotFoundBDConfigEX {
+    public List<Subscription> getAllSubscriptions() throws FileNotFoundBDConfigEX, ModelNotFoundEX {
         List<Subscription> subscriptionList = null;
         try {
             subscriptionList = subscriptionDAO.getAllSubscriptions();
+        } catch (NullPointerException e) {
+            throw new ModelNotFoundEX("All Subscriptions");
         } catch (IOException e) {
             e.printStackTrace();
         } catch (ClassNotFoundException e) {
@@ -128,15 +130,18 @@ public class SubscriptionSrvc {
         }
     }
 
-    public List<Discount> getAllDiscounts() throws FileNotFoundBDConfigEX {
+    public List<Discount> getAllDiscounts() throws FileNotFoundBDConfigEX, ModelNotFoundEX {
         List<Discount> discountList = null;
         try {
-            subscriptionDAO.getAllDiscounts();
+            discountList = subscriptionDAO.getAllDiscounts();
+        } catch (NullPointerException e) {
+            throw new ModelNotFoundEX("All Discounts");
         } catch (IOException e) {
             e.printStackTrace();
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         } catch (SQLException e) {
+
             e.printStackTrace();
         }
         return discountList;
@@ -145,7 +150,7 @@ public class SubscriptionSrvc {
     public Discount getDiscount(int discountID) throws FileNotFoundBDConfigEX, ModelNotFoundEX {
         Discount discount = null;
         try {
-            subscriptionDAO.getDiscount(discountID);
+            discount = subscriptionDAO.getDiscount(discountID);
         } catch (NullPointerException e) {
             throw new ModelNotFoundEX("Discount");
         } catch (IOException e) {
@@ -194,24 +199,26 @@ public class SubscriptionSrvc {
         }
     }
 
-    public List<SubsType> getAllSubsType() throws FileNotFoundBDConfigEX {
-            List<SubsType> subsTypeList = null;
-            try {
-                subscriptionDAO.getAllSubsType();
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (ClassNotFoundException e) {
-                e.printStackTrace();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-            return subsTypeList;
+    public List<SubsType> getAllSubsType() throws FileNotFoundBDConfigEX, ModelNotFoundEX {
+        List<SubsType> subsTypeList = null;
+        try {
+            subsTypeList = subscriptionDAO.getAllSubsType();
+        } catch (NullPointerException e) {
+            throw new ModelNotFoundEX("All Subscriptions Type");
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return subsTypeList;
     }
 
     public SubsType getSubsType(int subTypeID) throws FileNotFoundBDConfigEX, ModelNotFoundEX {
         SubsType subsTypet = null;
         try {
-            subscriptionDAO.getSubsType(subTypeID);
+            subsTypet = subscriptionDAO.getSubsType(subTypeID);
         } catch (NullPointerException e) {
             throw new ModelNotFoundEX("Subscription Type");
         } catch (IOException e) {

@@ -22,6 +22,8 @@ import static dao.impl.factory.ConnectFactory.getInstance;
 public class ClientDAOImpl implements ClientDAO {
     private static final String GET_ALL_CLIENT = String.format("SELECT * FROM %s where %s != 1;"
             , DBVar.DB_CLIENTS.getVar(), DBVar.DELETED.getVar());
+    private static final String GET_ALL_CLIENT_BY_NAME = String.format("SELECT * FROM %s where (%s like ? or %s like ?) and %s != 1;"
+            , DBVar.DB_CLIENTS.getVar(),DBVar.FIRST_NAME.getVar(), DBVar.LAST_NAME.getVar(), DBVar.DELETED.getVar());
     private static final String GET_CLIENT = String.format("SELECT * FROM %s where %s=? and %s != 1;"
             , DBVar.DB_CLIENTS.getVar(), DBVar.ID_CLIENT, DBVar.DELETED.getVar());
     private static final String INSERT_CLIENT = String.format("INSERT INTO %s (%s, %s, %s, %s, %s) VALUES (?, ?, ?, ?, ?);"
@@ -162,7 +164,32 @@ public class ClientDAOImpl implements ClientDAO {
     }
 
     @Override
-    public List<Client> getClientsBy(Client client) {
-        return null;
+    public List<Client> getClientsByName(String name) throws FileNotFoundBDConfigEX, IOException, ClassNotFoundException, SQLException {
+        List<Client> result = new ArrayList<>();
+        try {
+            conn = getInstance().getConnect();
+            pst = conn.prepareStatement(GET_ALL_CLIENT_BY_NAME);
+            pst.setString(1, "%" + name + "%");
+            pst.setString(2, "%" + name + "%");
+            rs = pst.executeQuery();
+            while (rs.next()) {
+                Client client = new Client();
+                client.setId(rs.getInt(DBVar.ID_CLIENT.getVar()));
+                client.setFirstName(rs.getString(DBVar.FIRST_NAME.getVar()));
+                client.setLastName(rs.getString(DBVar.LAST_NAME.getVar()));
+                client.setAddress(rs.getString(DBVar.ADDRESS.getVar()));
+                client.setTelephone(rs.getString(DBVar.TELEPHONE.getVar()));
+                client.setDate(rs.getDate(DBVar.DATE.getVar()).toLocalDate());
+                result.add(client);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            getInstance().closeResaultSet(rs);
+            getInstance().closeStatement(pst);
+            getInstance().closeConnect(conn);
+
+        }
+        return result;
     }
 }
