@@ -1,11 +1,7 @@
 
 import controller.MainCntrl;
-import dao.AdministratorDAO;
 import dao.impl.*;
-import dao.impl.factory.DAOImplFactory;
 import service.*;
-import model.*;
-
 
 
 public class Main {
@@ -30,7 +26,7 @@ public class Main {
 //        System.out.println(w2);
 
 
-        AdministratorSrv adm = new AdministratorSrv();
+        AdministratorSrvc adm = new AdministratorSrvc();
         //adm.createAllTables();
         // adm.insertAllTables();
 
@@ -40,8 +36,6 @@ public class Main {
 
         // CreateTableFactory crt = new CreateTableFactory();
         // crt.createAllTableIfNotExists();
-        // crt.dropAllTables();
-
 
         ClientDAOImpl clientDAO = new ClientDAOImpl();
 
@@ -77,5 +71,7 @@ public class Main {
         // cl.deleteClient(2);
 
         while (true){MainCntrl.doWork();}
+
+
     }
 }

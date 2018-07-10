@@ -14,12 +14,12 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AdministratorSrv {
+public class AdministratorSrvc {
 
 
     private AdministratorDAOImpl admDAO;
 
-    public AdministratorSrv() {
+    public AdministratorSrvc() {
         admDAO = DAOImplFactory.getAdministratorInstance();
     }
 
@@ -94,12 +94,12 @@ public class AdministratorSrv {
         clientList.add(new GenericObjectT<>(new Client(0, "Rox", "Markov", "Asrahan", "365-55-15", LocalDate.now())));
 
         List<GenericObjectT<Worker>> workerList = new ArrayList<>();
-        workerList.add(new GenericObjectT<>(new Worker(0, "Petya", "Vasilev", "Ukraine", "063-358-55-18", 6500.2, new Passport(0, "MB 22-66-16-18"))));
-        workerList.add(new GenericObjectT<>(new Worker(0, "Vova", "Hernakov", "Ukraine", "057-334-92-87-1", 3600, new Passport(0, "MB 22-55-66-10"))));
-        workerList.add(new GenericObjectT<>(new Worker(0, "Petya", "Zaebalov", "USA", "063-358-55-18", 3600, new Passport(0, "MB 66-99-88-11"))));
-        workerList.add(new GenericObjectT<>(new Worker(0, "Vova", "Lomonov", "Canada", "063-268-61-10", 7200.26, new Passport(0, "MB 66-55-16-98"))));
-        workerList.add(new GenericObjectT<>(new Worker(0, "Ira", "Vasileva", "Ukraine", "063-88-19-67", 5500.18, new Passport(0, "MB 89-55-26-15"))));
-        workerList.add(new GenericObjectT<>(new Worker(0, "Gosha", "Petrovich", "Ukraine", "095-358-15-77", 10550.69, new Passport(0, "MB 36-55-19-33"))));
+        workerList.add(new GenericObjectT<>(new Worker(0, "Petya", "Vasilev", "Ukraine", "063-358-55-18", 6500.2, Passport.builder().info("MB 22-66-16-18").build())));
+        workerList.add(new GenericObjectT<>(new Worker(0, "Vova", "Hernakov", "Ukraine", "057-334-92-87-1", 3600, Passport.builder().info("NF 82-72-39-51").build())));
+        workerList.add(new GenericObjectT<>(new Worker(0, "Petya", "Zaebalov", "USA", "063-358-55-18", 3600, Passport.builder().info("GG 36-79-61-55").build())));
+        workerList.add(new GenericObjectT<>(new Worker(0, "Vova", "Lomonov", "Canada", "063-268-61-10", 7200.26, Passport.builder().info("MB 14-17-11-20").build())));
+        workerList.add(new GenericObjectT<>(new Worker(0, "Ira", "Vasileva", "Ukraine", "063-88-19-67", 5500.18, Passport.builder().info("MB 66-67-21-00").build())));
+        workerList.add(new GenericObjectT<>(new Worker(0, "Gosha", "Petrovich", "Ukraine", "095-358-15-77", 10550.69, Passport.builder().info("ST 36-37-01-12").build())));
 
         List<GenericObjectT<Subscription>> subsList = new ArrayList<>();
 

@@ -1,12 +1,12 @@
 package controller;
 
 import model.Administrator;
-import service.AdministratorSrv;
+import service.AdministratorSrvc;
 
 import java.util.Scanner;
 
 public class AdministratorCntrl {
-    private AdministratorSrv admSrv = new AdministratorSrv();
+    private AdministratorSrvc admSrv = new AdministratorSrvc();
 
     public void doWork() {
             showHelloMMessage();

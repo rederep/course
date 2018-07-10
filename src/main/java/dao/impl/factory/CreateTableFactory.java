@@ -81,7 +81,7 @@ public class CreateTableFactory {
             "FOREIGN KEY (" + DBVar.SPEC_ID.getVar() + ") REFERENCES " + DBVar.DB_SPEC.getVar() + " (" + DBVar.ID_SPEC.getVar() + ")" +
             ");";
 
-    private final String crtTableDiscouns = "CREATE TABLE IF NOT EXISTS " + DBVar.DB_DISC.getVar() + " (" +
+    private final String crtTableDiscounts = "CREATE TABLE IF NOT EXISTS " + DBVar.DB_DISC.getVar() + " (" +
             DBVar.ID_DISC.getVar() + " int unsigned not null auto_increment primary key, " +
             DBVar.TITLE.getVar() + " varchar(20) not null default 'new_disc', " +
             DBVar.NOTE.getVar() + " varchar(255) default null, " +
@@ -90,9 +90,10 @@ public class CreateTableFactory {
 
     private final String crtTablePassport = "CREATE TABLE IF NOT EXISTS " + DBVar.DB_PASSPORT.getVar() + " (" +
             DBVar.ID_PASSPORT.getVar() + " int unsigned not null auto_increment primary key, " +
+            DBVar.WORKER_ID.getVar() + " int unsigned unique not null, " +
             DBVar.INFO.getVar() + " varchar(200) not null, " +
             DBVar.DELETED.getVar() + " tinyint default 0, " +
-            "FOREIGN KEY (" + DBVar.ID_PASSPORT.getVar() + ") REFERENCES " + DBVar.DB_WORKERS.getVar() + " (" + DBVar.ID_WORKER.getVar() + ")" +
+            "FOREIGN KEY (" + DBVar.WORKER_ID.getVar() + ") REFERENCES " + DBVar.DB_WORKERS.getVar() + " (" + DBVar.ID_WORKER.getVar() + ")" +
             ");";
 
     private final String crtTableSpecializations = "CREATE TABLE IF NOT EXISTS " + DBVar.DB_SPEC.getVar() + " (" +
@@ -112,7 +113,7 @@ public class CreateTableFactory {
             stmt.execute(crtTableClients);
             stmt.execute(crtTableWorkers);
             stmt.execute(crtTablePassport);
-            stmt.execute(crtTableDiscouns);
+            stmt.execute(crtTableDiscounts);
             stmt.execute(crtTableSubsTypes);
             stmt.execute(crtTableSpecializations);
             stmt.execute(crtTableSubscriptions);

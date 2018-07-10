@@ -19,13 +19,13 @@ public class WorkerDAOImpl implements WorkerDAO {
     private static final String GET_ALL_PASSPORT = String.format("SELECT * FROM %s where %s != 1;"
             , DBVar.DB_PASSPORT.getVar(), DBVar.DELETED.getVar());
     private static final String GET_PASSPORT = String.format("SELECT * FROM %s where %s=? and %s != 1;"
-            , DBVar.DB_PASSPORT.getVar(), DBVar.ID_PASSPORT.getVar(), DBVar.DELETED.getVar());
+            , DBVar.DB_PASSPORT.getVar(), DBVar.WORKER_ID.getVar(), DBVar.DELETED.getVar());
     private static final String INSERT_PASSPORT = String.format("INSERT INTO %s (%s, %s) VALUES (?, ?);"
-            , DBVar.DB_PASSPORT.getVar(), DBVar.ID_PASSPORT.getVar(), DBVar.INFO.getVar());
+            , DBVar.DB_PASSPORT.getVar(), DBVar.WORKER_ID.getVar(), DBVar.INFO.getVar());
     private static final String DELETE_PASSPORT = String.format("UPDATE %s SET %s = ?  WHERE %s = ?;"
-            , DBVar.DB_PASSPORT.getVar(), DBVar.DELETED.getVar(), DBVar.ID_PASSPORT.getVar());
+            , DBVar.DB_PASSPORT.getVar(), DBVar.DELETED.getVar(), DBVar.WORKER_ID.getVar());
     private static final String UPDATE_PASSPORT = String.format("UPDATE %s SET %s = ?  WHERE %s = ?;"
-            , DBVar.DB_PASSPORT.getVar(), DBVar.INFO.getVar(), DBVar.ID_PASSPORT.getVar());
+            , DBVar.DB_PASSPORT.getVar(), DBVar.INFO.getVar(), DBVar.WORKER_ID.getVar());
 
 
     private static final String GET_ALL_WORKER = String.format("SELECT * FROM %s where %s != 1;"
@@ -51,22 +51,26 @@ public class WorkerDAOImpl implements WorkerDAO {
 
     @Override
     public void addWorker(Worker worker) throws FileNotFoundBDConfigEX, IOException, ClassNotFoundException, SQLException {
+        int idNewWorker;
         try {
             conn = getInstance().getConnect();
-            pst = conn.prepareStatement(INSERT_WORKER);
+            pst = conn.prepareStatement(INSERT_WORKER, Statement.RETURN_GENERATED_KEYS);
             pst.setString(1, worker.getFirstName());
             pst.setString(2, worker.getLastName());
             pst.setString(3, worker.getAddress());
             pst.setString(4, worker.getTelephone());
             pst.setDouble(5, worker.getSalary());
             pst.execute();
+            rs = pst.getGeneratedKeys();
+            rs.next();
+            idNewWorker = rs.getInt(1);
         } finally {
+            getInstance().closeResaultSet(rs);
             getInstance().closePreparedStatement(pst);
             getInstance().closeConnect(conn);
         }
-        //in h2 do not work :(
-        System.out.println(worker.getPassport().getWorkerID());
-       //  addPassport(worker.getPassport());
+        worker.getPassport().setWorkerID(idNewWorker);
+        addPassport(worker.getPassport());
     }
 
     @Override
@@ -187,8 +191,8 @@ public class WorkerDAOImpl implements WorkerDAO {
         try {
             conn = getInstance().getConnect();
             pst = conn.prepareStatement(INSERT_PASSPORT);
-          //  pst.setInt(1, passport.getWorkerID());
-            pst.setString(1, passport.getInfo());
+            pst.setInt(1, passport.getWorkerID());
+            pst.setString(2, passport.getInfo());
             pst.execute();
         } finally {
             getInstance().closePreparedStatement(pst);

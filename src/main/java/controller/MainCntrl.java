@@ -1,19 +1,17 @@
 package controller;
 
-import dao.Password;
 import dao.impl.ClientDAOImpl;
 import dao.impl.SubscriptionDAOImpl;
 import dao.impl.WorkerDAOImpl;
 import dao.impl.factory.DAOImplFactory;
 import exception.BD.FileNotFoundBDConfigEX;
+import exception.ModelNotFoundEX;
 import model.Administrator;
-import model.Client;
-import service.AdministratorSrv;
-import sun.reflect.generics.factory.GenericsFactory;
+import service.AdministratorSrvc;
+import service.ClientSrvc;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.List;
 import java.util.Scanner;
 
 public class MainCntrl {
@@ -56,18 +54,13 @@ public class MainCntrl {
 
         switch (choice) {
             case 1: {
-                System.out.println("Sorry, method in development");
-                ClientDAOImpl clientDAO = DAOImplFactory.getClientInstance();
+                ClientSrvc clientSrvc = new ClientSrvc();
                 try {
-                    clientDAO.getAllClients().forEach(System.out::println);
+                    clientSrvc.getFullAllClients().forEach(System.out::println);
                 } catch (FileNotFoundBDConfigEX fileNotFoundBDConfigEX) {
                     fileNotFoundBDConfigEX.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                } catch (ClassNotFoundException e) {
-                    e.printStackTrace();
-                } catch (SQLException e) {
-                    e.printStackTrace();
+                } catch (ModelNotFoundEX modelNotFoundEX) {
+                    modelNotFoundEX.printStackTrace();
                 }
                 break;
             }
@@ -133,7 +126,7 @@ public class MainCntrl {
             case 9: {
                 System.out.print("Enter password:");
                 Scanner str = new Scanner(System.in);
-                AdministratorSrv admSrv = new AdministratorSrv();
+                AdministratorSrvc admSrv = new AdministratorSrvc();
                 if (admSrv.checkAdminPass(new Administrator(str.nextLine()))) {
                     AdministratorCntrl administratorCntrl = new AdministratorCntrl();
                     administratorCntrl.doWork();
