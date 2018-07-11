@@ -86,13 +86,8 @@ public class SpecializationDAOImpl implements SpecializationDAO {
 
             pst.execute();
             conn.commit();
-        } catch (SQLException e) {
-            try {
-                conn.rollback();
-            } catch (SQLException e1) {
-                e1.printStackTrace();
-            }
-            e.printStackTrace();
+            conn.rollback();
+
         } finally {
             getInstance().closePreparedStatement(pst);
             getInstance().closeConnect(conn);
@@ -107,8 +102,6 @@ public class SpecializationDAOImpl implements SpecializationDAO {
             pst.setInt(1, 1);
             pst.setInt(2, specByWorkerID);
             pst.execute();
-        } catch (SQLException e) {
-            e.printStackTrace();
         } finally {
             getInstance().closePreparedStatement(pst);
             getInstance().closeConnect(conn);
@@ -132,8 +125,6 @@ public class SpecializationDAOImpl implements SpecializationDAO {
                 spc.setSpecialization(getSpecializationInner(rs.getInt(DBVar.SPEC_ID.getVar())));
                 result.add(spc);
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
         } finally {
             getInstance().closeResaultSet(rs);
             getInstance().closeStatement(stmt);
@@ -159,8 +150,6 @@ public class SpecializationDAOImpl implements SpecializationDAO {
                 spc.setSpecialization(getSpecializationInner(rs.getInt(DBVar.SPEC_ID.getVar())));
                 result.add(spc);
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
         } finally {
             getInstance().closeResaultSet(rs);
             getInstance().closePreparedStatement(pst);
@@ -198,13 +187,7 @@ public class SpecializationDAOImpl implements SpecializationDAO {
             pst.setInt(2, specialization.getId());
             pst.execute();
             conn.commit();
-        } catch (SQLException e) {
-            try {
-                conn.rollback();
-            } catch (SQLException e1) {
-                e1.printStackTrace();
-            }
-            e.printStackTrace();
+            conn.rollback();
         } finally {
             getInstance().closePreparedStatement(pst);
             getInstance().closeConnect(conn);
@@ -219,9 +202,7 @@ public class SpecializationDAOImpl implements SpecializationDAO {
             pst.setInt(1, 1);
             pst.setInt(2, specID);
             pst.execute();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
+        }  finally {
             getInstance().closePreparedStatement(pst);
             getInstance().closeConnect(conn);
         }
@@ -240,8 +221,6 @@ public class SpecializationDAOImpl implements SpecializationDAO {
                 spec.setDenomination(rs.getString(DBVar.DENIM.getVar()));
                 result.add(spec);
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
         } finally {
             getInstance().closeResaultSet(rs);
             getInstance().closeStatement(stmt);
@@ -262,8 +241,6 @@ public class SpecializationDAOImpl implements SpecializationDAO {
             spec.setId(rs.getInt(DBVar.ID_SPEC.getVar()));
             spec.setDenomination(rs.getString(DBVar.DENIM.getVar()));
 
-        } catch (SQLException e) {
-            e.printStackTrace();
         } finally {
             getInstance().closeResaultSet(rs);
             getInstance().closePreparedStatement(pst);
@@ -282,8 +259,6 @@ public class SpecializationDAOImpl implements SpecializationDAO {
             spec.setId(rsTemp.getInt(DBVar.ID_SPEC.getVar()));
             spec.setDenomination(rsTemp.getString(DBVar.DENIM.getVar()));
 
-        } catch (SQLException e) {
-            e.printStackTrace();
         } finally {
             getInstance().closeResaultSet(rsTemp);
             getInstance().closePreparedStatement(pstTemp);

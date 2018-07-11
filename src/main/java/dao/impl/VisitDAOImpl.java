@@ -81,8 +81,6 @@ public class VisitDAOImpl implements VisitDAO {
             pst.setInt(1, 1);
             pst.setInt(2, visitID);
             pst.execute();
-        } catch (SQLException e) {
-            e.printStackTrace();
         } finally {
             getInstance().closePreparedStatement(pst);
             getInstance().closeConnect(conn);
@@ -98,8 +96,6 @@ public class VisitDAOImpl implements VisitDAO {
             pst.setInt(1, 1);
             pst.setInt(2, clientID);
             pst.execute();
-        } catch (SQLException e) {
-            e.printStackTrace();
         } finally {
             getInstance().closePreparedStatement(pst);
             getInstance().closeConnect(conn);
@@ -131,13 +127,7 @@ public class VisitDAOImpl implements VisitDAO {
             pst.setInt(4, visit.getId());
             pst.execute();
             conn.commit();
-        } catch (SQLException e) {
-            try {
-                conn.rollback();
-            } catch (SQLException e1) {
-                e1.printStackTrace();
-            }
-            e.printStackTrace();
+            conn.rollback();
         } finally {
             getInstance().closePreparedStatement(pst);
             getInstance().closeConnect(conn);
@@ -157,9 +147,7 @@ public class VisitDAOImpl implements VisitDAO {
             visit.setId(rs.getInt(DBVar.CLIENT_ID.getVar()));
             visit.setId(rs.getInt(DBVar.SUBS_ID.getVar()));
             visit.setId(rs.getInt(DBVar.WORKER_ID.getVar()));
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
+        }  finally {
             getInstance().closeResaultSet(rs);
             getInstance().closePreparedStatement(pst);
             getInstance().closeConnect(conn);
@@ -182,8 +170,6 @@ public class VisitDAOImpl implements VisitDAO {
                 visit.setWorkerID(rs.getInt(DBVar.WORKER_ID.getVar()));
                 result.add(visit);
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
         } finally {
             getInstance().closeResaultSet(rs);
             getInstance().closeStatement(stmt);
@@ -224,9 +210,7 @@ public class VisitDAOImpl implements VisitDAO {
                 visit.setWorkerID(rs.getInt(DBVar.WORKER_ID.getVar()));
                 result.add(visit);
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
+        }  finally {
             getInstance().closeResaultSet(rs);
             getInstance().closePreparedStatement(pst);
             getInstance().closeConnect(conn);

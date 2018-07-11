@@ -85,13 +85,18 @@ public class AdministratorSrvc {
         subsTypeList.add(new GenericObjectT<>(new SubsType(1, "Student subs", 10, 0, "")));
 
         List<GenericObjectT<Client>> clientList = new ArrayList<>();
-        clientList.add(new GenericObjectT<>(new Client(0, "Vlad", "Magadanov", "Ukraine Street 12", "336-52-18", LocalDate.of(2015, 1, 1))));
+        clientList.add(new GenericObjectT<>(new Client(0, "Vlad", "Magadanov", "Ukraine Street 12", "752-52-12", LocalDate.of(2015, 1, 1))));
         clientList.add(new GenericObjectT<>(new Client(0, "Roman", "Magadanov", "USA Street 10", "336-52-18", LocalDate.of(2016, 10, 11))));
-        clientList.add(new GenericObjectT<>(new Client(0, "Givi", "Gavrilov", "BMG", "336-52-18", LocalDate.of(2016, 10, 16))));
+        clientList.add(new GenericObjectT<>(new Client(0, "Givi", "Gavrilov", "BMG", "336-88-21", LocalDate.of(2016, 10, 16))));
         clientList.add(new GenericObjectT<>(new Client(0, "Olya", "Polotencev", "BMG", "057-775-70-10", LocalDate.of(2017, 12, 1))));
         clientList.add(new GenericObjectT<>(new Client(0, "Petya", "Petrov", "Street 23, b.12", "895-33-15", LocalDate.of(2018, 2, 18))));
         clientList.add(new GenericObjectT<>(new Client(0, "Vlad", "Grutkovskiy", "Ukraine", "758-25-411", LocalDate.now())));
-        clientList.add(new GenericObjectT<>(new Client(0, "Rox", "Markov", "Asrahan", "365-55-15", LocalDate.now())));
+        clientList.add(new GenericObjectT<>(new Client(0, "Vasya", "Markov", "Asrahan", "365-55-15", LocalDate.now())));
+        clientList.add(new GenericObjectT<>(new Client(0, "Vassa", "Oblomalov", "Rome str.52", "248-569-44", LocalDate.now())));
+        clientList.add(new GenericObjectT<>(new Client(0, "Ronald", "Kirpedonov", "Russian, Mosckov", "652-28-11", LocalDate.now())));
+        clientList.add(new GenericObjectT<>(new Client(0, "Petya", "WindowsSuks", "Dergachi, bomg", "093-57-12-223", LocalDate.now())));
+        clientList.add(new GenericObjectT<>(new Client(0, "Lora", "Niganova", "Kharkov str", "3093-99-11-222", LocalDate.now())));
+        clientList.add(new GenericObjectT<>(new Client(0, "Lida", "Petrovna", "Asrahan", "365-55-15", LocalDate.now())));
 
         List<GenericObjectT<Worker>> workerList = new ArrayList<>();
         workerList.add(new GenericObjectT<>(new Worker(0, "Petya", "Vasilev", "Ukraine", "063-358-55-18", 6500.2, Passport.builder().info("MB 22-66-16-18").build())));
@@ -99,27 +104,46 @@ public class AdministratorSrvc {
         workerList.add(new GenericObjectT<>(new Worker(0, "Petya", "Zaebalov", "USA", "063-358-55-18", 3600, Passport.builder().info("GG 36-79-61-55").build())));
         workerList.add(new GenericObjectT<>(new Worker(0, "Vova", "Lomonov", "Canada", "063-268-61-10", 7200.26, Passport.builder().info("MB 14-17-11-20").build())));
         workerList.add(new GenericObjectT<>(new Worker(0, "Ira", "Vasileva", "Ukraine", "063-88-19-67", 5500.18, Passport.builder().info("MB 66-67-21-00").build())));
-        workerList.add(new GenericObjectT<>(new Worker(0, "Gosha", "Petrovich", "Ukraine", "095-358-15-77", 10550.69, Passport.builder().info("ST 36-37-01-12").build())));
+        workerList.add(new GenericObjectT<>(new Worker(0, "Vlad", "Bogila", "Ukraine street Del", "095-358-15-77", 25550.69, Passport.builder().info("ST 36-37-01-15").build())));
+        workerList.add(new GenericObjectT<>(new Worker(0, "Gosha", "Petrovich", "Ukraine", "063-586-12-21", 4000.51, Passport.builder().info("ST 36-37-01-92").build())));
+        workerList.add(new GenericObjectT<>(new Worker(0, "Gosha", "Petrovich", "Ukraine, Kiev", "338-65-15", 6321.12, Passport.builder().info("ST 36-37-01-13").build())));
+        workerList.add(new GenericObjectT<>(new Worker(0, "Gosha", "Petrovich", "Ukraine, Kharkov", "097-562-26-48", 3800, Passport.builder().info("ST 36-37-01-82").build())));
+        workerList.add(new GenericObjectT<>(new Worker(0, "Gosha", "Petrovich", "Ukraine, bomg", "098-66-11-231", 4500, Passport.builder().info("ST 36-37-01-11").build())));
 
         List<GenericObjectT<Subscription>> subsList = new ArrayList<>();
 
         subsList.add(new GenericObjectT<>(Subscription.builder().dateBegin(LocalDate.of(2018, 1, 1)).dateEnd(LocalDate.of(2018, 7, 1)).price(4000)
                 .discount(Discount.builder().id(5).build())
                 .subsType(SubsType.builder().id(1).build()).build()));
-        subsList.add(new GenericObjectT<>(Subscription.builder().dateBegin(LocalDate.of(2018, 2, 1)).dateEnd(LocalDate.of(2018, 9, 1)).price(6500)
+        subsList.add(new GenericObjectT<>(Subscription.builder().dateBegin(LocalDate.of(2018, 2, 6)).dateEnd(LocalDate.of(2018, 9, 1)).price(6500)
                 .discount(Discount.builder().id(1).build())
                 .subsType(SubsType.builder().id(3).build()).build()));
         subsList.add(new GenericObjectT<>(Subscription.builder().numberVisitsLeft(3).price(2100)
                 .discount(Discount.builder().id(6).build())
-                .subsType(SubsType.builder().id(1).build()).build()));
+                .subsType(SubsType.builder().id(4).build()).build()));
         subsList.add(new GenericObjectT<>(Subscription.builder().dateBegin(LocalDate.of(2018, 1, 1)).dateEnd(LocalDate.of(2018, 7, 1)).price(2700)
                 .discount(Discount.builder().id(7).build())
                 .subsType(SubsType.builder().id(7).build()).build()));
         subsList.add(new GenericObjectT<>(Subscription.builder().numberVisitsLeft(15).price(2000)
                 .discount(Discount.builder().id(1).build())
                 .subsType(SubsType.builder().id(2).build()).build()));
-        subsList.add(new GenericObjectT<>(Subscription.builder().dateBegin(LocalDate.of(2018, 1, 1)).dateEnd(LocalDate.of(2018, 7, 1)).price(3600).numberVisitsLeft(5)
+        subsList.add(new GenericObjectT<>(Subscription.builder().dateBegin(LocalDate.of(2018, 3, 1)).dateEnd(LocalDate.of(2018, 6, 1)).price(1600).numberVisitsLeft(5)
                 .discount(Discount.builder().id(4).build())
+                .subsType(SubsType.builder().id(6).build()).build()));
+        subsList.add(new GenericObjectT<>(Subscription.builder().dateBegin(LocalDate.of(2018, 4, 1)).dateEnd(LocalDate.of(2018, 7, 13)).price(2500).numberVisitsLeft(5)
+                .discount(Discount.builder().id(4).build())
+                .subsType(SubsType.builder().id(6).build()).build()));
+        subsList.add(new GenericObjectT<>(Subscription.builder().dateBegin(LocalDate.of(2018, 1, 1)).dateEnd(LocalDate.of(2018, 6, 18)).price(1200).numberVisitsLeft(5)
+                .discount(Discount.builder().id(5).build())
+                .subsType(SubsType.builder().id(7).build()).build()));
+        subsList.add(new GenericObjectT<>(Subscription.builder().dateBegin(LocalDate.of(2018, 1, 1)).dateEnd(LocalDate.of(2018, 7, 21)).price(3600).numberVisitsLeft(5)
+                .discount(Discount.builder().id(4).build())
+                .subsType(SubsType.builder().id(4).build()).build()));
+        subsList.add(new GenericObjectT<>(Subscription.builder().dateBegin(LocalDate.of(2018, 1, 6)).dateEnd(LocalDate.of(2018, 1, 1)).price(3600).numberVisitsLeft(5)
+                .discount(Discount.builder().id(1).build())
+                .subsType(SubsType.builder().id(2).build()).build()));
+        subsList.add(new GenericObjectT<>(Subscription.builder().dateBegin(LocalDate.of(2018, 1, 6)).dateEnd(LocalDate.of(2018, 1, 1)).price(2600).numberVisitsLeft(5)
+                .discount(Discount.builder().id(6).build())
                 .subsType(SubsType.builder().id(6).build()).build()));
 // subsList.add(new GenericObjectT<>(Subscription.builder().dateBegin(LocalDate.of(2018,1,1)).dateEnd(LocalDate.of(2018,7,1)).price(3600).numberVisitsLeft(5)
 //                    .discount(new SubscriptionDAOImpl().getDiscount(4))
@@ -127,12 +151,20 @@ public class AdministratorSrvc {
 
 
         List<GenericObjectT<Visit>> visitList = new ArrayList<>();
-        visitList.add(new GenericObjectT<>(new Visit(0, 1, 1, 1)));
-        visitList.add(new GenericObjectT<>(new Visit(0, 1, 3, 5)));
+        visitList.add(new GenericObjectT<>(new Visit(0, 2, 1, 1)));
+        visitList.add(new GenericObjectT<>(new Visit(0, 2, 3, 5)));
         visitList.add(new GenericObjectT<>(new Visit(0, 2, 5, 6)));
         visitList.add(new GenericObjectT<>(new Visit(0, 3, 4, 1)));
         visitList.add(new GenericObjectT<>(new Visit(0, 4, 2, 4)));
-        visitList.add(new GenericObjectT<>(new Visit(0, 7, 1, 3)));
+        visitList.add(new GenericObjectT<>(new Visit(0, 7, 6, 3)));
+        visitList.add(new GenericObjectT<>(new Visit(0, 7, 10, 3)));
+        visitList.add(new GenericObjectT<>(new Visit(0, 8, 7, 8)));
+        visitList.add(new GenericObjectT<>(new Visit(0, 9, 9, 9)));
+        visitList.add(new GenericObjectT<>(new Visit(0, 10, 8, 3)));
+        visitList.add(new GenericObjectT<>(new Visit(0, 12, 11, 1)));
+
+
+
 
         List<GenericObjectT<SpecByWorker>> speOfWorktList = new ArrayList<>();
         speOfWorktList.add(new GenericObjectT<>(SpecByWorker.builder().workerID(1).date(LocalDate.of(2016, 6, 10)).note("V acreditaciya")
@@ -151,10 +183,18 @@ public class AdministratorSrvc {
                 .specialization(Specialization.builder().id(1).build()).build()));
         speOfWorktList.add(new GenericObjectT<>(SpecByWorker.builder().workerID(6).date(LocalDate.of(2016, 3, 3))
                 .specialization(Specialization.builder().id(9).build()).build()));
-        speOfWorktList.add(new GenericObjectT<>(SpecByWorker.builder().workerID(6).date(LocalDate.of(2016, 8, 22)).note("Imbo")
+        speOfWorktList.add(new GenericObjectT<>(SpecByWorker.builder().workerID(6).date(LocalDate.of(2016, 8, 22)).note("Imbo Percer")
                 .specialization(Specialization.builder().id(10).build()).build()));
         speOfWorktList.add(new GenericObjectT<>(SpecByWorker.builder().workerID(1).date(LocalDate.of(2018, 4, 18))
+                .specialization(Specialization.builder().id(8).build()).build()));
+        speOfWorktList.add(new GenericObjectT<>(SpecByWorker.builder().workerID(7).date(LocalDate.of(2018, 4, 18)).note("I am the Power STOTA")
                 .specialization(Specialization.builder().id(4).build()).build()));
+        speOfWorktList.add(new GenericObjectT<>(SpecByWorker.builder().workerID(8).date(LocalDate.of(2018, 4, 18)).note("must 1000 UAH!")
+                .specialization(Specialization.builder().id(12).build()).build()));
+        speOfWorktList.add(new GenericObjectT<>(SpecByWorker.builder().workerID(9).date(LocalDate.of(2018, 4, 18)).note("WTF?")
+                .specialization(Specialization.builder().id(11).build()).build()));
+        speOfWorktList.add(new GenericObjectT<>(SpecByWorker.builder().workerID(10).date(LocalDate.of(2018, 4, 18))
+                .specialization(Specialization.builder().id(1).build()).build()));
 
 
         try {

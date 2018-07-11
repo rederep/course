@@ -65,10 +65,10 @@ public class ClientSrvc {
                 List<Worker> workerList = new ArrayList<>();
                 List<Subscription> subscriptionList = new ArrayList<>();
                 for (Visit visit : visitSrvc.getAllVisitsByClientID(client.getId())) {
-                    workerList.add(workerSrvc.getFullWorker(visit.getWorkerID()));
-                }
-                for (Visit visit : visitSrvc.getAllVisitsBySubsID(client.getId())) {
-                    subscriptionList.add(subscriptionSrvc.getSubscription(visit.getSubscriptionID()));
+                    if(client.getId()>0) {
+                        workerList.add(workerSrvc.getFullWorker(visit.getWorkerID()));
+                        subscriptionList.add(subscriptionSrvc.getSubscription(visit.getSubscriptionID()));
+                    }
                 }
                 client.setWorkerLists(workerList);
                 client.setSubscriptionLists(subscriptionList);
@@ -89,15 +89,13 @@ public class ClientSrvc {
         Client client = null;
         try {
             client = clientDAO.getClient(clientID);
-
         } catch (NullPointerException e) {
-            throw new ModelNotFoundEX("Subscription Type");
+            throw new ModelNotFoundEX("Client");
         } catch (IOException e) {
             e.printStackTrace();
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         } catch (SQLException e) {
-            e.printStackTrace();
         }
         return client;
     }
@@ -122,7 +120,6 @@ public class ClientSrvc {
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         } catch (SQLException e) {
-            e.printStackTrace();
         }
     }
 
@@ -134,15 +131,14 @@ public class ClientSrvc {
             VisitSrvc visitSrvc = new VisitSrvc();
             WorkerSrvc workerSrvc = new WorkerSrvc();
             SubscriptionSrvc subscriptionSrvc = new SubscriptionSrvc();
-
             for (Client client : clientList) {
                 List<Worker> workerList = new ArrayList<>();
                 List<Subscription> subscriptionList = new ArrayList<>();
                 for (Visit visit : visitSrvc.getAllVisitsByClientID(client.getId())) {
-                    workerList.add(workerSrvc.getFullWorker(visit.getWorkerID()));
-                }
-                for (Visit visit : visitSrvc.getAllVisitsBySubsID(client.getId())) {
-                    subscriptionList.add(subscriptionSrvc.getSubscription(visit.getSubscriptionID()));
+                    if(client.getId()>0) {
+                        subscriptionList.add(subscriptionSrvc.getSubscription(visit.getSubscriptionID()));
+                        workerList.add(workerSrvc.getFullWorker(visit.getWorkerID()));
+                    }
                 }
                 client.setWorkerLists(workerList);
                 client.setSubscriptionLists(subscriptionList);

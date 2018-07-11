@@ -28,12 +28,12 @@ public class WorkerDAOImpl implements WorkerDAO {
             , DBVar.DB_PASSPORT.getVar(), DBVar.INFO.getVar(), DBVar.WORKER_ID.getVar());
 
 
-    private static final String GET_ALL_WORKER = String.format("SELECT * FROM %s where %s != 1;"
-            , DBVar.DB_WORKERS.getVar(), DBVar.DELETED.getVar());
+    private static final String GET_ALL_WORKER = String.format("SELECT * FROM %s as tb1 LEFT JOIN %s as tb2 on tb2.%s=tb1.%s where tb1.%s != 1;"
+            , DBVar.DB_WORKERS.getVar(), DBVar.DB_PASSPORT.getVar(), DBVar.ID_PASSPORT.getVar(), DBVar.ID_WORKER.getVar(), DBVar.DELETED.getVar());
     private static final String GET_ALL_WORKER_BY_NAME = String.format("SELECT * FROM %s where (%s like ? or %s like ?) and %s != 1;"
             , DBVar.DB_WORKERS.getVar(), DBVar.LAST_NAME.getVar(), DBVar.FIRST_NAME.getVar(), DBVar.DELETED.getVar());
-    private static final String GET_WORKER = String.format("SELECT * FROM %s where %s=? and %s != 1;"
-            , DBVar.DB_WORKERS.getVar(), DBVar.ID_WORKER.getVar(), DBVar.DELETED.getVar());
+    private static final String GET_WORKER = String.format("SELECT * FROM %s as tb1 LEFT JOIN %s as tb2 on tb2.%s=tb1.%s where %s=? and tb1.%s != 1;"
+            , DBVar.DB_WORKERS.getVar(), DBVar.DB_PASSPORT.getVar(), DBVar.ID_PASSPORT.getVar(), DBVar.ID_WORKER.getVar(), DBVar.ID_WORKER.getVar(), DBVar.DELETED.getVar());
     private static final String INSERT_WORKER = String.format("INSERT INTO %s (%s, %s, %s, %s, %s) VALUES (?, ?, ?, ?, ?);"
             , DBVar.DB_WORKERS.getVar(), DBVar.FIRST_NAME.getVar(), DBVar.LAST_NAME.getVar()
             , DBVar.ADDRESS.getVar(), DBVar.TELEPHONE.getVar(), DBVar.SALARY.getVar());
@@ -84,17 +84,20 @@ public class WorkerDAOImpl implements WorkerDAO {
             rs = stmt.executeQuery(GET_ALL_WORKER);
             while (rs.next()) {
                 Worker worker = new Worker();
+                Passport passport = new Passport();
                 worker.setId(rs.getInt(DBVar.ID_WORKER.getVar()));
                 worker.setFirstName(rs.getString(DBVar.FIRST_NAME.getVar()));
                 worker.setLastName(rs.getString(DBVar.LAST_NAME.getVar()));
                 worker.setAddress(rs.getString(DBVar.ADDRESS.getVar()));
                 worker.setTelephone(rs.getString(DBVar.TELEPHONE.getVar()));
                 worker.setSalary(rs.getDouble(DBVar.SALARY.getVar()));
-                worker.setPassport(getPassportInner(worker.getId()));
+                worker.setPassport(Passport.builder().id(rs.getInt(DBVar.ID_PASSPORT.getVar()))
+                        .info(rs.getString(DBVar.INFO.getVar()))
+                        .workerID(rs.getInt(DBVar.WORKER_ID.getVar()))
+                        .build());
+                // worker.setPassport(getPassportInner(worker.getId());
                 result.add(worker);
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
         } finally {
             getInstance().closeResaultSet(rs);
             getInstance().closeStatement(stmt);
@@ -117,13 +120,7 @@ public class WorkerDAOImpl implements WorkerDAO {
             pst.setInt(6, worker.getId());
             pst.execute();
             conn.commit();
-        } catch (SQLException e) {
-            try {
-                conn.rollback();
-            } catch (SQLException e1) {
-                e1.printStackTrace();
-            }
-            e.printStackTrace();
+            conn.rollback();
         } finally {
             getInstance().closePreparedStatement(pst);
             getInstance().closeConnect(conn);
@@ -145,9 +142,11 @@ public class WorkerDAOImpl implements WorkerDAO {
             worker.setAddress(rs.getString(DBVar.ADDRESS.getVar()));
             worker.setTelephone(rs.getString(DBVar.TELEPHONE.getVar()));
             worker.setSalary(rs.getDouble(DBVar.SALARY.getVar()));
-            worker.setPassport(getPassportInner(workerID));
-        } catch (SQLException e) {
-            e.printStackTrace();
+            worker.setPassport(Passport.builder().id(rs.getInt(DBVar.ID_PASSPORT.getVar()))
+                    .info(rs.getString(DBVar.INFO.getVar()))
+                    .workerID(rs.getInt(DBVar.WORKER_ID.getVar()))
+                    .build());
+            // worker.setPassport(getPassportInner(workerID));
         } finally {
             getInstance().closeResaultSet(rs);
             getInstance().closePreparedStatement(pst);
@@ -169,8 +168,6 @@ public class WorkerDAOImpl implements WorkerDAO {
             pst.setInt(1, 1);
             pst.setInt(2, workerID);
             pst.execute();
-        } catch (SQLException e) {
-            e.printStackTrace();
         } finally {
             getInstance().closePreparedStatement(pst);
             getInstance().closeConnect(conn);
@@ -235,8 +232,6 @@ public class WorkerDAOImpl implements WorkerDAO {
             pst.setInt(1, 1);
             pst.setInt(2, workerID);
             pst.execute();
-        } catch (SQLException e) {
-            e.printStackTrace();
         } finally {
             getInstance().closePreparedStatement(pst);
             getInstance().closeConnect(conn);
@@ -253,14 +248,7 @@ public class WorkerDAOImpl implements WorkerDAO {
             pst.setInt(2, passport.getWorkerID());
             pst.execute();
             conn.commit();
-        } catch (
-                SQLException e) {
-            try {
-                conn.rollback();
-            } catch (SQLException e1) {
-                e1.printStackTrace();
-            }
-            e.printStackTrace();
+            conn.rollback();
         } finally {
             getInstance().closePreparedStatement(pst);
             getInstance().closeConnect(conn);
@@ -281,8 +269,6 @@ public class WorkerDAOImpl implements WorkerDAO {
                 passport.setInfo(rs.getString(DBVar.INFO.getVar()));
                 result.add(passport);
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
         } finally {
             getInstance().closeResaultSet(rs);
             getInstance().closeStatement(stmt);
@@ -303,8 +289,6 @@ public class WorkerDAOImpl implements WorkerDAO {
             passport.setWorkerID(workerID);
             passport.setInfo(rs.getString(DBVar.INFO.getVar()));
 
-        } catch (SQLException e) {
-            e.printStackTrace();
         } finally {
             getInstance().closeResaultSet(rs);
             getInstance().closePreparedStatement(pst);
@@ -323,7 +307,6 @@ public class WorkerDAOImpl implements WorkerDAO {
             passport.setWorkerID(workerID);
             passport.setInfo(rsTemp.getString(DBVar.INFO.getVar()));
 
-        } catch (SQLException e) {
         } finally {
             getInstance().closeResaultSet(rsTemp);
             getInstance().closePreparedStatement(pstTemp);

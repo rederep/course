@@ -39,7 +39,6 @@ public class AdministratorDAOImpl implements AdministratorDAO {
         } else if (objName.equals(Discount.class.getSimpleName())) {
             SubscriptionDAOImpl result = DAOImplFactory.getSubscriptionInstance();
             result.addDiscount((Discount) object.getT());
-
         } else if (objName.equals(Client.class.getSimpleName())) {
             ClientDAOImpl result = DAOImplFactory.getClientInstance();
             result.addClient((Client) object.getT());
@@ -58,16 +57,6 @@ public class AdministratorDAOImpl implements AdministratorDAO {
         } else {
             throw new NoPramToInsertBDEX();
         }
-
-
-        //  }
-
-
-//
-//
-
-//
-
     }
 
     @Override

@@ -3,9 +3,12 @@ package service;
 import dao.impl.WorkerDAOImpl;
 import dao.impl.factory.DAOImplFactory;
 import exception.BD.FileNotFoundBDConfigEX;
+import exception.DeletedGood;
 import exception.ModelNotFoundEX;
+import exception.NotDeletedWorkerEX;
 import model.Passport;
 import model.SpecByWorker;
+import model.Visit;
 import model.Worker;
 
 import java.io.IOException;
@@ -91,7 +94,6 @@ public class WorkerSrvc {
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         } catch (SQLException e) {
-            e.printStackTrace();
         }
         return worker;
     }
@@ -113,16 +115,23 @@ public class WorkerSrvc {
         return worker;
     }
 
-    public void deleteWorker(int workerID) throws FileNotFoundBDConfigEX {
+    public void deleteWorker(int workerID) throws FileNotFoundBDConfigEX, ModelNotFoundEX, NotDeletedWorkerEX, DeletedGood {
         try {
-            workerDAO.deleteWorker(workerID);
+            VisitSrvc visitSrvc = new VisitSrvc();
+            List<Visit> visitList  = visitSrvc.getAllVisitsByWorkerID(workerID);
+            if (visitList.size()==0) {
+                workerDAO.deleteWorker(workerID);
+                new SpecializationSrvc().deleteSpecByWorker(workerID);
+                throw new DeletedGood();
+            } else {
+                throw new NotDeletedWorkerEX();
+            }
 
         } catch (IOException e) {
             e.printStackTrace();
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         } catch (SQLException e) {
-            e.printStackTrace();
         }
     }
 

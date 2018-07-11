@@ -8,7 +8,9 @@ import exception.BD.FileNotFoundBDConfigEX;
 import exception.ModelNotFoundEX;
 import model.Administrator;
 import model.Client;
+import model.Human;
 import model.Worker;
+import org.h2.command.dml.Delete;
 import service.AdministratorSrvc;
 import service.ClientSrvc;
 import service.SubscriptionSrvc;
@@ -16,7 +18,7 @@ import service.WorkerSrvc;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.Scanner;
+import java.util.*;
 
 public class MainCntrl {
     static {
@@ -42,9 +44,9 @@ public class MainCntrl {
         System.out.println("1. Show Clients");
         System.out.println("2. Show Workers");
         System.out.println("3. Show...");
-        System.out.println("4. Add...");
-        System.out.println("5. Update...");
-        System.out.println("6. Remove...(Client)");
+        System.out.println("4. Add/Update...");
+        System.out.println("5. Remove...");
+        System.out.println("6. Show Clients sorted by Last Name");
         System.out.println("7. Fined Clients by First/Last Name");
         System.out.println("8. Fined Workers by First/Last Name");
         System.out.println("9. Subscriptions Info (Discounts, Types)");
@@ -96,30 +98,31 @@ public class MainCntrl {
             }
             case 4: {
                 System.out.println("Sorry, method in development");
-
+                System.out.println("The implementation of this functionality for console applications is very time-consuming." +
+                        "\n There are methods for writing and updating all entities.");
                 break;
             }
             case 5: {
-                System.out.println("Sorry, method in development");
-
+                do {
+                    new DeleteCntrl().doWork();
+                } while (!DeleteCntrl.exit);
                 break;
             }
             case 6: {
-                System.out.print("Enter ID Client who must be destroyed");
-                Scanner str = new Scanner(System.in);
-                ClientDAOImpl clientDAO = DAOImplFactory.getClientInstance();
+                ClientSrvc clientSrvc = new ClientSrvc();
+                System.out.println();
                 try {
-                    clientDAO.deleteClient(str.nextInt());
-                } catch (IOException e) {
-                    e.printStackTrace();
-                } catch (ClassNotFoundException e) {
-                    e.printStackTrace();
-                } catch (SQLException e) {
-                    e.printStackTrace();
+                    List<Client> clientList = clientSrvc.getFullAllClients();
+                    clientList.sort(Comparator.comparing(Human::getLastName));
+                  for (Client client : clientList) {
+                        System.out.println(ClientDTO.toDTO(client));
+                  }
                 } catch (FileNotFoundBDConfigEX fileNotFoundBDConfigEX) {
                     fileNotFoundBDConfigEX.printStackTrace();
+                } catch (ModelNotFoundEX modelNotFoundEX) {
+                    modelNotFoundEX.printStackTrace();
                 }
-                break;
+
             }
             case 7: {
                 System.out.print("Enter FirsName or LastName of Client:");

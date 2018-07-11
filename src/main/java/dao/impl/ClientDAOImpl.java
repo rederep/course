@@ -75,9 +75,7 @@ public class ClientDAOImpl implements ClientDAO {
                 client.setDate(rs.getDate(DBVar.DATE.getVar()).toLocalDate());
                 result.add(client);
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
+        }  finally {
             getInstance().closeResaultSet(rs);
             getInstance().closeStatement(stmt);
             getInstance().closeConnect(conn);
@@ -101,9 +99,7 @@ public class ClientDAOImpl implements ClientDAO {
                 client.setAddress(rs.getString(DBVar.ADDRESS.getVar()));
                 client.setTelephone(rs.getString(DBVar.TELEPHONE.getVar()));
                 client.setDate(rs.getDate(DBVar.DATE.getVar()).toLocalDate());
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
+        }  finally {
             getInstance().closeResaultSet(rs);
             getInstance().closePreparedStatement(pst);
             getInstance().closeConnect(conn);
@@ -126,13 +122,7 @@ public class ClientDAOImpl implements ClientDAO {
             pst.setInt(6, client.getId());
             pst.execute();
             conn.commit();
-        } catch (SQLException e) {
-            try {
-                conn.rollback();
-            } catch (SQLException e1) {
-                e1.printStackTrace();
-            }
-            e.printStackTrace();
+            conn.rollback();
         } finally {
             getInstance().closePreparedStatement(pst);
             getInstance().closeConnect(conn);
@@ -147,8 +137,6 @@ public class ClientDAOImpl implements ClientDAO {
             pst.setInt(1, 1);
             pst.setInt(2, clientID);
             pst.execute();
-        } catch (SQLException e) {
-            e.printStackTrace();
         } finally {
             getInstance().closePreparedStatement(pst);
             getInstance().closeConnect(conn);
@@ -182,9 +170,7 @@ public class ClientDAOImpl implements ClientDAO {
                 client.setDate(rs.getDate(DBVar.DATE.getVar()).toLocalDate());
                 result.add(client);
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
+        }finally {
             getInstance().closeResaultSet(rs);
             getInstance().closeStatement(pst);
             getInstance().closeConnect(conn);
