@@ -11,7 +11,6 @@ import java.util.List;
 public interface SpecializationDAO {
     void addSpecByWorker(SpecByWorker specByWorker) throws FileNotFoundBDConfigEX, IOException, ClassNotFoundException, SQLException;
     void updateSpecByWorker(SpecByWorker specByWorker) throws FileNotFoundBDConfigEX, IOException, ClassNotFoundException, SQLException;
-    void deleteSpecByWorker(int specByWorkerID) throws FileNotFoundBDConfigEX, IOException, ClassNotFoundException, SQLException;
     List<SpecByWorker> getAllSpecByWorkers() throws FileNotFoundBDConfigEX, IOException, ClassNotFoundException, SQLException;
     List<SpecByWorker> getSpecByWorkers(int workerID) throws FileNotFoundBDConfigEX, IOException, ClassNotFoundException, SQLException;
 

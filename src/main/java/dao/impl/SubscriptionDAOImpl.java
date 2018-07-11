@@ -1,6 +1,7 @@
 package dao.impl;
 
 import dao.DBVar;
+import dao.DeleteDAO;
 import dao.SubscriptionDAO;
 import exception.BD.ChoosingSubscriptionEX;
 import exception.BD.FileNotFoundBDConfigEX;
@@ -18,7 +19,7 @@ import java.util.List;
 import static dao.impl.factory.ConnectFactory.getInstance;
 
 @NoArgsConstructor
-public class SubscriptionDAOImpl implements SubscriptionDAO {
+public class SubscriptionDAOImpl implements SubscriptionDAO, DeleteDAO {
     private static final String GET_ALL_DISCOUNT = String.format("SELECT * FROM %s where %s != 1;"
             , DBVar.DB_DISC.getVar(), DBVar.DELETED.getVar());
     private static final String GET_DISCOUNT = String.format("SELECT * FROM %s where %s=? and %s != 1;"
@@ -130,12 +131,12 @@ public class SubscriptionDAOImpl implements SubscriptionDAO {
     }
 
     @Override
-    public void deleteSubscription(int subscriptionID) throws FileNotFoundBDConfigEX, IOException, ClassNotFoundException, SQLException {
+    public void delete(int id) throws FileNotFoundBDConfigEX, IOException, ClassNotFoundException, SQLException {
         try {
             conn = getInstance().getConnect();
             pst = conn.prepareStatement(DELETE_SUBS);
             pst.setInt(1, 1);
-            pst.setInt(2, subscriptionID);
+            pst.setInt(2, id);
             pst.execute();
         } finally {
             getInstance().closePreparedStatement(pst);

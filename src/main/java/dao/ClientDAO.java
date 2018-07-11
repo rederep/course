@@ -12,7 +12,8 @@ public interface ClientDAO {
     List<Client> getAllClients() throws IOException, ClassNotFoundException, SQLException, FileNotFoundBDConfigEX;
     Client getClient(int clientID) throws IOException, ClassNotFoundException, SQLException, FileNotFoundBDConfigEX;
     void updateClient (Client client) throws IOException, ClassNotFoundException, SQLException, FileNotFoundBDConfigEX;
-    void deleteClient (int clientID) throws IOException, ClassNotFoundException, SQLException, FileNotFoundBDConfigEX;
+
+
     List<Client> getClientsByName (String name) throws FileNotFoundBDConfigEX, IOException, ClassNotFoundException, SQLException;
 
 

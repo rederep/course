@@ -1,6 +1,7 @@
 package dao.impl;
 
 import dao.DBVar;
+import dao.DeleteDAO;
 import dao.WorkerDAO;
 import exception.BD.FileNotFoundBDConfigEX;
 import lombok.NoArgsConstructor;
@@ -15,7 +16,7 @@ import java.util.List;
 import static dao.impl.factory.ConnectFactory.getInstance;
 
 @NoArgsConstructor
-public class WorkerDAOImpl implements WorkerDAO {
+public class WorkerDAOImpl implements WorkerDAO, DeleteDAO {
     private static final String GET_ALL_PASSPORT = String.format("SELECT * FROM %s where %s != 1;"
             , DBVar.DB_PASSPORT.getVar(), DBVar.DELETED.getVar());
     private static final String GET_PASSPORT = String.format("SELECT * FROM %s where %s=? and %s != 1;"
@@ -157,16 +158,16 @@ public class WorkerDAOImpl implements WorkerDAO {
     }
 
     @Override
-    public void deleteWorker(int workerID) throws FileNotFoundBDConfigEX, IOException, ClassNotFoundException, SQLException {
+    public void delete(int id) throws FileNotFoundBDConfigEX, IOException, ClassNotFoundException, SQLException {
         try {
             conn = getInstance().getConnect();
             pst = conn.prepareStatement(DELETE_WORKER);
             pst.setInt(1, 1);
-            pst.setInt(2, workerID);
+            pst.setInt(2, id);
             pst.execute();
             pst = conn.prepareStatement(DELETE_PASSPORT);
             pst.setInt(1, 1);
-            pst.setInt(2, workerID);
+            pst.setInt(2, id);
             pst.execute();
         } finally {
             getInstance().closePreparedStatement(pst);

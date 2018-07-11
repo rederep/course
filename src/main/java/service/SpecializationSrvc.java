@@ -6,7 +6,6 @@ import exception.BD.FileNotFoundBDConfigEX;
 import exception.ModelNotFoundEX;
 import model.SpecByWorker;
 import model.Specialization;
-import model.Subscription;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -45,7 +44,7 @@ public class SpecializationSrvc {
 
     public void deleteSpecByWorker(int specByWorkerID) throws FileNotFoundBDConfigEX {
         try {
-            specDAO.deleteSpecByWorker(specByWorkerID);
+            specDAO.delete(specByWorkerID);
         } catch (IOException e) {
             e.printStackTrace();
         } catch (ClassNotFoundException e) {

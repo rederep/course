@@ -2,6 +2,7 @@ package dao.impl;
 
 import dao.ClientDAO;
 import dao.DBVar;
+import dao.DeleteDAO;
 import dao.impl.factory.DAOImplFactory;
 import exception.BD.FileNotFoundBDConfigEX;
 import lombok.NoArgsConstructor;
@@ -19,7 +20,7 @@ import static dao.impl.factory.ConnectFactory.getInstance;
 
 
 @NoArgsConstructor
-public class ClientDAOImpl implements ClientDAO {
+public class ClientDAOImpl implements ClientDAO, DeleteDAO {
     private static final String GET_ALL_CLIENT = String.format("SELECT * FROM %s where %s != 1;"
             , DBVar.DB_CLIENTS.getVar(), DBVar.DELETED.getVar());
     private static final String GET_ALL_CLIENT_BY_NAME = String.format("SELECT * FROM %s where (%s like ? or %s like ?) and %s != 1;"
@@ -130,24 +131,24 @@ public class ClientDAOImpl implements ClientDAO {
     }
 
     @Override
-    public void deleteClient(int clientID) throws IOException, ClassNotFoundException, SQLException, FileNotFoundBDConfigEX {
+    public void delete(int id) throws IOException, ClassNotFoundException, SQLException, FileNotFoundBDConfigEX {
         try {
             conn = getInstance().getConnect();
             pst = conn.prepareStatement(DELETE_CLIENT);
             pst.setInt(1, 1);
-            pst.setInt(2, clientID);
+            pst.setInt(2, id);
             pst.execute();
         } finally {
             getInstance().closePreparedStatement(pst);
             getInstance().closeConnect(conn);
         }
 
-        List<Integer> lstSubsID = DAOImplFactory.getVisitInstance().getAllVisitsByClientID(clientID).stream()
+        List<Integer> lstSubsID = DAOImplFactory.getVisitInstance().getAllVisitsByClientID(id).stream()
                 .map(Visit::getSubscriptionID)
                 .collect(Collectors.toList());
-        DAOImplFactory.getVisitInstance().deleteVisitByClientID(clientID);
+        DAOImplFactory.getVisitInstance().deleteVisitByClientID(id);
         for (Integer integer : lstSubsID) {
-            DAOImplFactory.getSubscriptionInstance().deleteSubscription(integer);
+            DAOImplFactory.getSubscriptionInstance().delete(integer);
         }
     }
 

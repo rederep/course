@@ -13,7 +13,6 @@ import java.util.List;
 public interface SubscriptionDAO {
     void addSubscription(Subscription subscription) throws FileNotFoundBDConfigEX, IOException, ClassNotFoundException, SQLException, ChoosingSubscriptionEX;
     void updateSubscription(Subscription subscription) throws FileNotFoundBDConfigEX, IOException, ClassNotFoundException, SQLException;
-    void deleteSubscription(int subscriptionID) throws FileNotFoundBDConfigEX, IOException, ClassNotFoundException, SQLException;
     List<Subscription> getAllSubscriptions() throws FileNotFoundBDConfigEX, IOException, ClassNotFoundException, SQLException;
     Subscription getSubscription(int subscriptionID) throws FileNotFoundBDConfigEX, IOException, ClassNotFoundException, SQLException;
     List<Subscription> getSubscriptionsBy(Subscription subscription);

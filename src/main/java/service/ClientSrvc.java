@@ -1,7 +1,6 @@
 package service;
 
 import dao.impl.ClientDAOImpl;
-import dao.impl.VisitDAOImpl;
 import dao.impl.factory.DAOImplFactory;
 import exception.BD.FileNotFoundBDConfigEX;
 import exception.ModelNotFoundEX;
@@ -14,7 +13,6 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class ClientSrvc {
     private ClientDAOImpl clientDAO;
@@ -114,7 +112,7 @@ public class ClientSrvc {
 
     public void deleteClient(int clientID) throws FileNotFoundBDConfigEX {
         try {
-            clientDAO.deleteClient(clientID);
+            clientDAO.delete(clientID);
         } catch (IOException e) {
             e.printStackTrace();
         } catch (ClassNotFoundException e) {

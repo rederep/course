@@ -1,6 +1,8 @@
 package dao.impl;
 
 import dao.AdministratorDAO;
+import dao.DeleteDAO;
+import dao.GenericObjectT;
 import service.Password;
 import dao.impl.factory.DAOImplFactory;
 import exception.BD.*;
@@ -13,8 +15,6 @@ import java.sql.SQLException;
 
 @NoArgsConstructor
 public class AdministratorDAOImpl implements AdministratorDAO {
-    private static final String FILE_ADMIN_KEY = "admin.key";
-    private Password password;
 
     @Override
     public void createAllTables() throws SQLException, IOException, ClassNotFoundException, FileNotFoundBDConfigEX {
@@ -59,41 +59,6 @@ public class AdministratorDAOImpl implements AdministratorDAO {
         }
     }
 
-    @Override
-    public void createPassAdmin(Administrator administrator) throws FileNotFoundBDConfigAdm {
-        BufferedWriter bw;
-        try {
-            bw = new BufferedWriter(new FileWriter(FILE_ADMIN_KEY));
-            bw.write(getInstancePass().getSaltedHash(administrator.getPassword()));
-            bw.close();
-        } catch (FileNotFoundException e) {
-            throw new FileNotFoundBDConfigAdm();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
 
-    }
-
-    @Override
-    public boolean checkAdminPass(Administrator administrator) throws FileNotFoundBDConfigAdm {
-        boolean isPass = false;
-        try {
-            BufferedReader br = new BufferedReader(new FileReader(FILE_ADMIN_KEY));
-            isPass = Password.check(administrator.getPassword(), br.readLine());
-            br.close();
-        } catch (FileNotFoundException e) {
-            throw new FileNotFoundBDConfigAdm();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return isPass;
-    }
-
-    private Password getInstancePass() {
-        if (password == null) {
-            password = new Password();
-        }
-        return password;
-    }
 
 }

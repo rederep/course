@@ -1,14 +1,15 @@
 package service;
 
 import dao.impl.AdministratorDAOImpl;
-import dao.impl.GenericObjectT;
+import dao.GenericObjectT;
 
 import dao.impl.factory.DAOImplFactory;
 import exception.BD.*;
 import exception.FileNotFoundBDConfigAdm;
+import exception.IllegalArgumentEX;
 import model.*;
 
-import java.io.IOException;
+import java.io.*;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -18,6 +19,9 @@ public class AdministratorSrvc {
 
 
     private AdministratorDAOImpl admDAO;
+    private static final String FILE_ADMIN_KEY = "admin.key";
+    private Password password;
+
 
     public AdministratorSrvc() {
         admDAO = DAOImplFactory.getAdministratorInstance();
@@ -243,20 +247,40 @@ public class AdministratorSrvc {
 
     }
 
-    public void createPassAdmin(Administrator administrator) {
+
+
+    private Password getInstancePass() {
+        if (password == null) {
+            password = new Password();
+        }
+        return password;
+    }
+
+    public void createPassAdmin(Administrator administrator) throws FileNotFoundBDConfigAdm {
+        BufferedWriter bw;
         try {
-            admDAO.createPassAdmin(administrator);
-        } catch (FileNotFoundBDConfigAdm fileNotFoundBDConfigAdm) {
-            fileNotFoundBDConfigAdm.printStackTrace();
+            bw = new BufferedWriter(new FileWriter(FILE_ADMIN_KEY));
+            bw.write(getInstancePass().getSaltedHash(administrator.getPassword()));
+            bw.close();
+        } catch (FileNotFoundException e) {
+            throw new FileNotFoundBDConfigAdm();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
-    public boolean checkAdminPass(Administrator administrator) {
+    public boolean checkAdminPass(Administrator administrator) throws  FileNotFoundBDConfigAdm  {
         boolean isPass = false;
         try {
-            isPass = admDAO.checkAdminPass(administrator);
-        } catch (FileNotFoundBDConfigAdm fileNotFoundBDConfigAdm) {
-            fileNotFoundBDConfigAdm.printStackTrace();
+            BufferedReader br = new BufferedReader(new FileReader(FILE_ADMIN_KEY));
+            isPass = Password.check(administrator.getPassword(), br.readLine());
+            br.close();
+        }catch (IllegalArgumentEX e ){
+            System.out.println(e.getMessage());
+        } catch (FileNotFoundException e) {
+            throw new FileNotFoundBDConfigAdm();
+        } catch (Exception e) {
+             e.printStackTrace();
         }
         return isPass;
     }

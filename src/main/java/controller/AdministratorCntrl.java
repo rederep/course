@@ -1,5 +1,6 @@
 package controller;
 
+import exception.FileNotFoundBDConfigAdm;
 import model.Administrator;
 import service.AdministratorSrvc;
 
@@ -69,7 +70,11 @@ public class AdministratorCntrl {
             case 4: {
                 Scanner str = new Scanner(System.in);
                 System.out.print("Enter new password:");
-                admSrv.createPassAdmin(new Administrator(str.nextLine()));
+                try {
+                    admSrv.createPassAdmin(new Administrator(str.nextLine()));
+                } catch (FileNotFoundBDConfigAdm fileNotFoundBDConfigAdm) {
+                    fileNotFoundBDConfigAdm.printStackTrace();
+                }
                 System.out.println("Password change successful!");
 
                 break;

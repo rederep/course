@@ -35,7 +35,7 @@ public class VisitSrvc {
     public void deleteVisit(int visitID) throws FileNotFoundBDConfigEX {
 
         try {
-            visitDAO.deleteVisit(visitID);
+            visitDAO.delete(visitID);
         } catch (IOException e) {
             e.printStackTrace();
         } catch (ClassNotFoundException e) {

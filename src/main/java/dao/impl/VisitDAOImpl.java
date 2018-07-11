@@ -1,6 +1,7 @@
 package dao.impl;
 
 import dao.DBVar;
+import dao.DeleteDAO;
 import dao.VisitDAO;
 import exception.BD.ChoosingClientEX;
 import exception.BD.ChoosingSubscriptionEX;
@@ -19,7 +20,7 @@ import java.util.List;
 import static dao.impl.factory.ConnectFactory.getInstance;
 
 @NoArgsConstructor
-public class VisitDAOImpl implements VisitDAO {
+public class VisitDAOImpl implements VisitDAO, DeleteDAO {
     private static final String GET_ALL_VISITS = String.format("SELECT * FROM %s where %s != 1;"
             , DBVar.DB_VISITS.getVar(), DBVar.DELETED.getVar());
     private static final String GET_VISITS = String.format("SELECT * FROM %s where %s=? and %s != 1;"
@@ -74,12 +75,12 @@ public class VisitDAOImpl implements VisitDAO {
     }
 
     @Override
-    public void deleteVisit(int visitID) throws FileNotFoundBDConfigEX, IOException, ClassNotFoundException, SQLException {
+    public void delete(int id) throws FileNotFoundBDConfigEX, IOException, ClassNotFoundException, SQLException {
         try {
             conn = getInstance().getConnect();
             pst = conn.prepareStatement(DELETE_VISITS);
             pst.setInt(1, 1);
-            pst.setInt(2, visitID);
+            pst.setInt(2, id);
             pst.execute();
         } finally {
             getInstance().closePreparedStatement(pst);

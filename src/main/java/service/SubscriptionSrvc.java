@@ -46,7 +46,7 @@ public class SubscriptionSrvc {
 
     public void deleteSubscription(int subscriptionID) throws FileNotFoundBDConfigEX {
         try {
-            subscriptionDAO.deleteSubscription(subscriptionID);
+            subscriptionDAO.delete(subscriptionID);
         } catch (IOException e) {
             e.printStackTrace();
         } catch (ClassNotFoundException e) {

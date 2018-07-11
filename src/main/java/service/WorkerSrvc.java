@@ -7,13 +7,11 @@ import exception.DeletedGood;
 import exception.ModelNotFoundEX;
 import exception.NotDeletedWorkerEX;
 import model.Passport;
-import model.SpecByWorker;
 import model.Visit;
 import model.Worker;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 public class WorkerSrvc {
@@ -120,7 +118,7 @@ public class WorkerSrvc {
             VisitSrvc visitSrvc = new VisitSrvc();
             List<Visit> visitList  = visitSrvc.getAllVisitsByWorkerID(workerID);
             if (visitList.size()==0) {
-                workerDAO.deleteWorker(workerID);
+                workerDAO.delete(workerID);
                 new SpecializationSrvc().deleteSpecByWorker(workerID);
                 throw new DeletedGood();
             } else {

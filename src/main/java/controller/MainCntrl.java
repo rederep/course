@@ -5,6 +5,7 @@ import dao.impl.factory.DAOImplFactory;
 import dto.ClientDTO.ClientDTO;
 import dto.WorkerDTO;
 import exception.BD.FileNotFoundBDConfigEX;
+import exception.FileNotFoundBDConfigAdm;
 import exception.ModelNotFoundEX;
 import model.Administrator;
 import model.Client;
@@ -114,15 +115,15 @@ public class MainCntrl {
                 try {
                     List<Client> clientList = clientSrvc.getFullAllClients();
                     clientList.sort(Comparator.comparing(Human::getLastName));
-                  for (Client client : clientList) {
+                    for (Client client : clientList) {
                         System.out.println(ClientDTO.toDTO(client));
-                  }
+                    }
                 } catch (FileNotFoundBDConfigEX fileNotFoundBDConfigEX) {
                     fileNotFoundBDConfigEX.printStackTrace();
                 } catch (ModelNotFoundEX modelNotFoundEX) {
                     modelNotFoundEX.printStackTrace();
                 }
-
+                break;
             }
             case 7: {
                 System.out.print("Enter FirsName or LastName of Client:");
@@ -148,7 +149,7 @@ public class MainCntrl {
                 }
                 break;
             }
-            case 9:{
+            case 9: {
                 try {
                     System.out.println();
                     System.out.println("TYPE OF SUBSCRIPTIONS:");
@@ -169,14 +170,19 @@ public class MainCntrl {
                 System.out.print("Enter password:");
                 Scanner str = new Scanner(System.in);
                 AdministratorSrvc admSrv = new AdministratorSrvc();
-                if (admSrv.checkAdminPass(new Administrator(str.nextLine()))) {
-                    AdministratorCntrl administratorCntrl = new AdministratorCntrl();
-                    do {
-                        administratorCntrl.doWork();
-                    } while (!AdministratorCntrl.exit);
+                try {
+                    if (admSrv.checkAdminPass(new Administrator(str.nextLine()))) {
+                        AdministratorCntrl administratorCntrl = new AdministratorCntrl();
+                        do {
+                            administratorCntrl.doWork();
+                        } while (!AdministratorCntrl.exit);
 
-                } else {
-                    System.out.println("Wrong Password!");
+                    } else {
+                        System.out.println();
+                        System.out.println("Wrong Password!");
+                    }
+                } catch (FileNotFoundBDConfigAdm fileNotFoundBDConfigAdm) {
+                    fileNotFoundBDConfigAdm.printStackTrace();
                 }
                 break;
             }
