@@ -123,7 +123,7 @@ public class SubscriptionDAOImpl implements SubscriptionDAO, DeleteDAO {
             pst.setInt(7, subscription.getId());
             pst.execute();
             conn.commit();
-            conn.rollback();
+
         } finally {
             getInstance().closePreparedStatement(pst);
             getInstance().closeConnect(conn);
@@ -249,7 +249,7 @@ public class SubscriptionDAOImpl implements SubscriptionDAO, DeleteDAO {
             pst.setInt(3, discount.getId());
             pst.execute();
             conn.commit();
-            conn.rollback();
+
         } finally {
             getInstance().closePreparedStatement(pst);
             getInstance().closeConnect(conn);
@@ -342,7 +342,7 @@ public class SubscriptionDAOImpl implements SubscriptionDAO, DeleteDAO {
             pst.setString(4, subsType.getNote());
             pst.execute();
             conn.commit();
-            conn.rollback();
+
         } finally {
             getInstance().closePreparedStatement(pst);
             getInstance().closeConnect(conn);

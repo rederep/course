@@ -123,7 +123,7 @@ public class ClientDAOImpl implements ClientDAO, DeleteDAO {
             pst.setInt(6, client.getId());
             pst.execute();
             conn.commit();
-            conn.rollback();
+
         } finally {
             getInstance().closePreparedStatement(pst);
             getInstance().closeConnect(conn);

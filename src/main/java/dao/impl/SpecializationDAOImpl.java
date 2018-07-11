@@ -87,7 +87,7 @@ public class SpecializationDAOImpl implements SpecializationDAO, DeleteDAO {
 
             pst.execute();
             conn.commit();
-            conn.rollback();
+
 
         } finally {
             getInstance().closePreparedStatement(pst);
@@ -188,7 +188,7 @@ public class SpecializationDAOImpl implements SpecializationDAO, DeleteDAO {
             pst.setInt(2, specialization.getId());
             pst.execute();
             conn.commit();
-            conn.rollback();
+
         } finally {
             getInstance().closePreparedStatement(pst);
             getInstance().closeConnect(conn);

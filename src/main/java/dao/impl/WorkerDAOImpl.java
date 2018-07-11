@@ -121,7 +121,7 @@ public class WorkerDAOImpl implements WorkerDAO, DeleteDAO {
             pst.setInt(6, worker.getId());
             pst.execute();
             conn.commit();
-            conn.rollback();
+
         } finally {
             getInstance().closePreparedStatement(pst);
             getInstance().closeConnect(conn);
@@ -249,7 +249,7 @@ public class WorkerDAOImpl implements WorkerDAO, DeleteDAO {
             pst.setInt(2, passport.getWorkerID());
             pst.execute();
             conn.commit();
-            conn.rollback();
+
         } finally {
             getInstance().closePreparedStatement(pst);
             getInstance().closeConnect(conn);

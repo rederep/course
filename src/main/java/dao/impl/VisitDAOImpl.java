@@ -128,7 +128,7 @@ public class VisitDAOImpl implements VisitDAO, DeleteDAO {
             pst.setInt(4, visit.getId());
             pst.execute();
             conn.commit();
-            conn.rollback();
+
         } finally {
             getInstance().closePreparedStatement(pst);
             getInstance().closeConnect(conn);
